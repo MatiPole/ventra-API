@@ -1,5 +1,5 @@
 import express from "express";
-import verifyToken from "../middlewares/auth.js";
+// import verifyToken from "../middlewares/auth.js";
 import {
   eventsList,
   findEvent,
@@ -17,7 +17,7 @@ const route = express.Router();
 //En todas las rutas aplicamos autenticación por medio de nuestro middleware verifyToken
 
 //Búsqueda de todos los eventos
-route.get("/", verifyToken, (req, res) => {
+route.get("/", (req, res) => {
   let result = eventsList();
   result
     .then((events) => {
@@ -29,7 +29,7 @@ route.get("/", verifyToken, (req, res) => {
 });
 
 //Búsqueda por id
-route.get("/:id", verifyToken, (req, res) => {
+route.get("/:id", (req, res) => {
   let result = findEvent(req.params.id);
   result
     .then((value) => {
@@ -41,7 +41,7 @@ route.get("/:id", verifyToken, (req, res) => {
 });
 
 //Agregar un nuevo evento
-route.post("/", verifyToken, (req, res) => {
+route.post("/", (req, res) => {
   let result = createEvent(req);
   result
     .then((event) => {
@@ -55,7 +55,7 @@ route.post("/", verifyToken, (req, res) => {
 });
 
 //Actualizar los datos del evento.
-route.put("/events/:id", verifyToken, (req, res) => {
+route.put("/events/:id", (req, res) => {
   let result = updateEvent(req.body, req.params.id);
   result
     .then((value) => {
@@ -69,7 +69,7 @@ route.put("/events/:id", verifyToken, (req, res) => {
 });
 
 //Eliminar un evento
-route.delete("/:id", verifyToken, (req, res) => {
+route.delete("/:id", (req, res) => {
   let result = deleteEvent(req.params.id);
   result
     .then((value) => {
@@ -83,7 +83,7 @@ route.delete("/:id", verifyToken, (req, res) => {
 });
 
 //Buscar por nombre los eventos
-route.get("/find-by-name", verifyToken, (req, res) => {
+route.get("/find-by-name", (req, res) => {
   let result = findByName();
   result
     .then((value) => {
@@ -107,7 +107,7 @@ route.get("/find-by-name", verifyToken, (req, res) => {
 
 //Filtros
 //Filtro por pais de origen
-route.get("/category/:category", verifyToken, (req, res) => {
+route.get("/category/:category", (req, res) => {
   let result = filterCategory(req.params.category);
   result
     .then((value) => {
@@ -131,7 +131,7 @@ route.get("/category/:category", verifyToken, (req, res) => {
 }); */
 
 //Paginado ejemplo: localhost:3000/events/limit-events?page=1&limit=2
-route.get("/limit-events", verifyToken, (req, res) => {
+route.get("/limit-events", (req, res) => {
   let result = limitEvents(req.query.page, req.query.limit);
   result
     .then((value) => {
