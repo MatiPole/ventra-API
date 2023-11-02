@@ -17,7 +17,7 @@ const route = express.Router();
 //En todas las rutas aplicamos autenticación por medio de nuestro middleware verifyToken
 
 //Búsqueda de todos los eventos
-route.get("/", verifyToken, (req, res) => {
+route.get("/", (req, res) => {
   let result = eventsList();
   result
     .then((events) => {
