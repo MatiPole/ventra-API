@@ -7,7 +7,7 @@ import path from "path";
 import "dotenv/config";
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/ventradb", {
+  .connect(process.env.CONNECT, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
