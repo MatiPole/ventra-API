@@ -35,6 +35,4 @@ app.listen(port, () => {
   console.log("Server running...");
 });
 
-const cors = require("cors");
-
 app.use(cors({ origin: "http://localhost:5174" }));
