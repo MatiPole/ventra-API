@@ -83,7 +83,7 @@ route.delete("/:id", (req, res) => {
 });
 
 //Buscar por nombre los eventos
-route.get("/find-by-name/:nombre", (req, res) => {
+route.get("/find-by-name/:name", (req, res) => {
   let result = findByName();
   result
     .then((value) => {
