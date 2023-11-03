@@ -17,7 +17,8 @@ async function createEvent(req) {
     description: req.body.description,
     price: req.body.price,
     date: req.body.date,
-    type: req.body.type,
+    venue: req.body.venue,
+    state: req.body.state,
     category: req.body.category,
   });
   return await event.save();
@@ -31,8 +32,9 @@ async function updateEvent(body, id) {
         name: body.name,
         description: body.description,
         price: body.price,
+        venue: body.venue,
         date: body.date,
-        type: body.type,
+        state: body.state,
         category: body.category,
       },
     }
