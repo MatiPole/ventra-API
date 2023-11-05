@@ -84,7 +84,7 @@ route.delete("/:id", (req, res) => {
 
 //Buscar por nombre los eventos
 route.get("/find-by-name/:name", (req, res) => {
-  let result = findByName();
+  let result = findByName(req.params.name);
   result
     .then((value) => {
       res.json(value);
