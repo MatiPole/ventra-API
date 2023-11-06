@@ -1,7 +1,8 @@
 import express from "express";
-// import verifyToken from "../middlewares/auth.js";
+import verifyToken from "../middlewares/auth.js";
 import {
   eventsList,
+  userEventsList,
   findEvent,
   createEvent,
   updateEvent,
@@ -27,6 +28,17 @@ route.get("/", (req, res) => {
       res.status(400).json(err);
     });
 });
+//Búsqueda de los eventos del usuario
+route.get("/userEvents/:userId", (req, res) => {
+  let result = userEventsList(req.params.userId);
+  result
+    .then((events) => {
+      res.json(events);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
 
 //Búsqueda por id
 route.get("/:id", (req, res) => {
@@ -41,7 +53,7 @@ route.get("/:id", (req, res) => {
 });
 
 //Agregar un nuevo evento
-route.post("/", (req, res) => {
+route.post("/", verifyToken, (req, res) => {
   let result = createEvent(req);
   result
     .then((event) => {
@@ -55,7 +67,7 @@ route.post("/", (req, res) => {
 });
 
 //Actualizar los datos del evento.
-route.put("/events/:id", (req, res) => {
+route.put("/:id", (req, res) => {
   let result = updateEvent(req.body, req.params.id);
   result
     .then((value) => {
@@ -83,8 +95,8 @@ route.delete("/:id", (req, res) => {
 });
 
 //Buscar por nombre los eventos
-route.get("/find-by-name", (req, res) => {
-  let result = findByName();
+route.get("/find-by-name/:name", (req, res) => {
+  let result = findByName(req.params.name);
   result
     .then((value) => {
       res.json(value);

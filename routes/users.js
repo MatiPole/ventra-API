@@ -14,7 +14,7 @@ import Joi from "joi";
 const route = express.Router();
 
 //Obtenemos todos los usuarios registrados
-route.get("/", verifyToken, (req, res) => {
+route.get("/" /* , verifyToken */, (req, res) => {
   let result = usersList();
   result
     .then((users) => {
@@ -28,7 +28,7 @@ route.get("/", verifyToken, (req, res) => {
 });
 
 //Buscar usuario por id
-route.get("/:id", verifyToken, (req, res) => {
+route.get("/:id" /* , verifyToken */, (req, res) => {
   let result = findUser(req.params.id);
   result
     .then((value) => {
@@ -85,7 +85,7 @@ route.post("/", (req, res) => {
 });
 
 //Modifición de información del usuario (username, email y password)
-route.put("/update-user/:id", verifyToken, (req, res) => {
+route.put("/update-user/:id" /* , verifyToken */, (req, res) => {
   let result = updateUser(req.body, req.params.id);
   result
     .then((value) => {
@@ -99,7 +99,7 @@ route.put("/update-user/:id", verifyToken, (req, res) => {
 });
 
 //Eliminar usuario por id
-route.delete("/:id", verifyToken, (req, res) => {
+route.delete("/:id" /* , verifyToken */, (req, res) => {
   let result = deleteUser(req.params.id);
   result
     .then((value) => {
@@ -113,7 +113,7 @@ route.delete("/:id", verifyToken, (req, res) => {
 });
 
 //Paginado
-route.get("/limit-users", verifyToken, (req, res) => {
+route.get("/limit-users" /* , verifyToken */, (req, res) => {
   let result = limitUsers(req.query.limit);
   result
     .then((value) => {
@@ -125,7 +125,7 @@ route.get("/limit-users", verifyToken, (req, res) => {
 });
 
 //Buscar usuario por email
-route.get("/email/:email", verifyToken, (req, res) => {
+route.get("/email/:email" /* , verifyToken */, (req, res) => {
   let result = findByEmail(req.params.email);
   result
     .then((value) => {
@@ -137,7 +137,7 @@ route.get("/email/:email", verifyToken, (req, res) => {
 });
 
 //Ordenamiento por email
-route.get("/order-by-email", verifyToken, (req, res) => {
+route.get("/order-by-email" /* , verifyToken */, (req, res) => {
   let result = orderByEmail();
   result
     .then((value) => {
