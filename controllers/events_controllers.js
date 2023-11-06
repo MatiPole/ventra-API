@@ -43,7 +43,7 @@ async function updateEvent(body, id) {
         date: body.date,
         state: body.state,
         category: body.category,
-        userId: body.userId,
+        userId: req.body.userId,
         status: true,
       },
     }
