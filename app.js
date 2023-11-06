@@ -4,6 +4,7 @@ import users from "./routes/users.js";
 import events from "./routes/events.js";
 import auth from "./routes/auth.js";
 import path from "path";
+import cors from "cors";
 import "dotenv/config";
 
 mongoose
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/users", users);
 app.use("/auth", auth);
 app.use("/events", events);
+app.use(cors);
 app.get("/", function (req, res) {
   res.sendFile("./html/index.html", { root: __dirname });
 });
