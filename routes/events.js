@@ -2,6 +2,7 @@ import express from "express";
 // import verifyToken from "../middlewares/auth.js";
 import {
   eventsList,
+  userEventsList,
   findEvent,
   createEvent,
   updateEvent,
@@ -27,6 +28,17 @@ route.get("/", (req, res) => {
       res.status(400).json(err);
     });
 });
+//Búsqueda de los eventos del usuario
+route.get("/userEvents/:userId", (req, res) => {
+  let result = eventsList();
+  result
+    .then((events) => {
+      res.json(events);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
 
 //Búsqueda por id
 route.get("/:id", (req, res) => {
@@ -41,7 +53,7 @@ route.get("/:id", (req, res) => {
 });
 
 //Agregar un nuevo evento
-route.post("/", (req, res) => {
+route.post("/", verifyToken, (req, res) => {
   let result = createEvent(req);
   result
     .then((event) => {

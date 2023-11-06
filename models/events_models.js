@@ -31,6 +31,10 @@ const eventsSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  userId: {
+    type: String,
+    required: false,
+  },
   status: {
     type: Boolean,
     default: true,

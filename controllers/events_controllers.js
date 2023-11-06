@@ -6,6 +6,11 @@ async function eventsList() {
   return events;
 }
 
+async function userEventsList(userId) {
+  let events = await Events.find({ userId: userId });
+  return events;
+}
+
 async function findEvent(id) {
   let event = await Events.find({ _id: id });
   return event;
@@ -20,6 +25,8 @@ async function createEvent(req) {
     venue: req.body.venue,
     state: req.body.state,
     category: req.body.category,
+    userId: req.body.userId,
+    status: true,
   });
   return await event.save();
 }
@@ -36,6 +43,8 @@ async function updateEvent(body, id) {
         date: body.date,
         state: body.state,
         category: body.category,
+        userId: req.body.userId,
+        status: true,
       },
     }
   );
@@ -72,6 +81,7 @@ async function limitEvents(page, limit) {
 
 export {
   eventsList,
+  userEventsList,
   findEvent,
   createEvent,
   updateEvent,
