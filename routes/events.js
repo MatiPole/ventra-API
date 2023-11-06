@@ -30,7 +30,7 @@ route.get("/", (req, res) => {
 });
 //Búsqueda de los eventos del usuario
 route.get("/userEvents/:userId", (req, res) => {
-  let result = eventsList(req.params.userId);
+  let result = findEvent(req.params.userId);
   result
     .then((events) => {
       res.json(events);
