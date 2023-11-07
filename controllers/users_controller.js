@@ -27,7 +27,6 @@ async function updateUser(body, id) {
       $set: {
         username: body.username,
         email: body.email,
-        password: bcrypt.hashSync(body.password, 10),
       },
     }
   );
