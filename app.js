@@ -26,7 +26,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/users", users);
 app.use("/auth", auth);
 app.use("/events", events);
-app.use(cors());
 app.get("/", function (req, res) {
   res.sendFile("./html/index.html", { root: __dirname });
 });
