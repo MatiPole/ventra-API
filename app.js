@@ -20,6 +20,10 @@ mongoose
   });
 
 const app = express();
+const cors = require("cors");
+
+app.use(cors());
+
 const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -34,5 +38,3 @@ const port = process.env.PORT || 3002;
 app.listen(port, () => {
   console.log("Server running...");
 });
-
-app.use(cors());
