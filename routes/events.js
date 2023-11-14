@@ -67,7 +67,7 @@ route.post("/", verifyToken, (req, res) => {
 });
 
 //Actualizar los datos del evento.
-route.patch("/:id", (req, res) => {
+route.put("/:id", (req, res) => {
   let result = updateEvent(req.body, req.params.id);
   result
     .then((value) => {
