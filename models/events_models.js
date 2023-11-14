@@ -40,7 +40,7 @@ const eventsSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  state: {
+  visibility: {
     type: String,
     required: true,
   },
