@@ -49,7 +49,7 @@ async function updateEvent(body, id) {
         time: req.body.time,
         venue: req.body.venue,
         zone: req.body.zone,
-        image: req.body.image,
+        /*         image: req.body.image, */
         ticketCount: req.body.ticketCount,
         visibility: req.body.visibility,
         category: req.body.category,
