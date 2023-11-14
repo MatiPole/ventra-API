@@ -54,7 +54,6 @@ async function updateEvent(body, id) {
         visibility: req.body.visibility,
         category: req.body.category,
         isFree: req.body.isFree,
-        termsAndConditions: req.body.termsAndConditions,
         userId: req.body.userId,
         status: true,
       },
