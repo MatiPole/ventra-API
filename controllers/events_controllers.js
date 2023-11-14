@@ -2,7 +2,7 @@ import Events from "../models/events_models.js";
 
 //Se buscan todas las bandas con status true.
 async function eventsList() {
-  let events = await Events.find({ status: true, visibility: "publicado" });
+  let events = await Events.find({ status: true, visibility: "public" });
   return events;
 }
 
