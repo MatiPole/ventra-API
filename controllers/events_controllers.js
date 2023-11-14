@@ -53,7 +53,7 @@ async function updateEvent(body, id) {
         ticketCount: body.ticketCount,
         visibility: body.visibility,
         category: body.category,
-        isFree: body.isFree,
+        /*  isFree: body.isFree, */
         userId: body.userId,
         status: true,
       },
