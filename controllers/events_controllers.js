@@ -42,19 +42,19 @@ async function updateEvent(body, id) {
     { _id: id },
     {
       $set: {
-        name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        date: req.body.date,
-        time: req.body.time,
-        venue: req.body.venue,
-        zone: req.body.zone,
-        /*         image: req.body.image, */
-        ticketCount: req.body.ticketCount,
-        visibility: req.body.visibility,
-        category: req.body.category,
-        isFree: req.body.isFree,
-        userId: req.body.userId,
+        name: body.name,
+        description: body.description,
+        price: body.price,
+        date: body.date,
+        time: body.time,
+        venue: body.venue,
+        zone: body.zone,
+        /*         image: body.image, */
+        ticketCount: body.ticketCount,
+        visibility: body.visibility,
+        category: body.category,
+        isFree: body.isFree,
+        userId: body.userId,
         status: true,
       },
     }
