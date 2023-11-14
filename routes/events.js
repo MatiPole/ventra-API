@@ -53,21 +53,18 @@ route.get("/:id", (req, res) => {
 });
 
 //Agregar un nuevo evento
-route.post(
-  "/",
-  /* verifyToken, */ (req, res) => {
-    let result = createEvent(req);
-    result
-      .then((event) => {
-        res.json({
-          event,
-        });
-      })
-      .catch((err) => {
-        res.status(400).json(err);
+route.post("/", verifyToken, (req, res) => {
+  let result = createEvent(req);
+  result
+    .then((event) => {
+      res.json({
+        event,
       });
-  }
-);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
 
 //Actualizar los datos del evento.
 route.put("/:id", (req, res) => {
