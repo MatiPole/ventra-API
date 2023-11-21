@@ -1,7 +1,7 @@
 import express from "express";
 import verifyToken from "../middlewares/auth.js";
 import multer from "multer";
-
+import path from "path";
 import {
   eventsList,
   userEventsList,
@@ -55,6 +55,7 @@ route.get("/:id", (req, res) => {
 });
 
 //Agregar un nuevo evento
+
 const storage = multer.diskStorage({
   destination: "./src/assets/imgs/",
   filename: (req, file, cb) => {

@@ -33,7 +33,7 @@ async function createEvent(req) {
     time: req.body.time,
     venue: req.body.venue,
     zone: req.body.zone,
-    image: image,
+    cover: image,
     ticketCount: req.body.ticketCount,
     visibility: req.body.visibility,
     category: req.body.category,
@@ -43,9 +43,8 @@ async function createEvent(req) {
     status: true,
   });
 
-  return await event.save();
+  return console.log(event), await event.save();
 }
-
 async function updateEvent(body, id) {
   let event = await Events.updateOne(
     { _id: id },
