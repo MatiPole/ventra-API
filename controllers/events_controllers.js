@@ -98,6 +98,18 @@ async function limitEvents(page, limit) {
   return events;
 }
 
+async function updateTickets(body, id) {
+  let event = await Events.updateOne(
+    { _id: id },
+    {
+      $set: {
+        ticketCount: body.ticketCount,
+      },
+    }
+  );
+  return event;
+}
+
 export {
   eventsList,
   userEventsList,
@@ -109,4 +121,5 @@ export {
   filterCategory,
   orderByPrice,
   limitEvents,
+  updateTickets,
 };

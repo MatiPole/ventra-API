@@ -91,6 +91,20 @@ route.put("/:id", (req, res) => {
     });
 });
 
+//Actualizar cantidad de entradas restantes.
+route.patch("/:id", (req, res) => {
+  let result = updateTickets(req.body, req.params.id);
+  result
+    .then((value) => {
+      res.json({
+        value,
+      });
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
 //Eliminar un evento
 route.delete("/:id", (req, res) => {
   let result = deleteEvent(req.params.id);

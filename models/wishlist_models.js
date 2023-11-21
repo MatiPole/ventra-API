@@ -19,7 +19,7 @@ const wishlistSchema = new mongoose.Schema({
   },
   eventDate: {
     type: Date,
-    required: true,
+    required: false,
   },
   eventTime: {
     type: String,
@@ -28,6 +28,10 @@ const wishlistSchema = new mongoose.Schema({
   eventPrice: {
     type: Number,
     required: true,
+  },
+  status: {
+    type: Boolean,
+    default: true,
   },
 });
 

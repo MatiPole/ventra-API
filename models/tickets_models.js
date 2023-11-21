@@ -19,7 +19,7 @@ const ticketsSchema = new mongoose.Schema({
   },
   eventDate: {
     type: Date,
-    required: true,
+    required: false,
   },
   eventTime: {
     type: String,
