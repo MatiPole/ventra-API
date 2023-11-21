@@ -32,9 +32,14 @@ const eventsSchema = new mongoose.Schema({
     required: true,
   },
   image: {
-    type: Buffer,
-    contentType: String,
-    required: false,
+    data: {
+      type: Buffer,
+      required: false,
+    },
+    contentType: {
+      type: String,
+      required: false,
+    },
   },
   ticketCount: {
     type: Number,

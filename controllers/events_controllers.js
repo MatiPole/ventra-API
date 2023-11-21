@@ -17,6 +17,14 @@ async function findEvent(id) {
 }
 
 async function createEvent(req) {
+  let image = null;
+  if (req.file) {
+    image = {
+      data: req.file.buffer,
+      contentType: req.file.mimetype,
+    };
+  }
+
   let event = new Events({
     name: req.body.name,
     description: req.body.description,
@@ -25,7 +33,7 @@ async function createEvent(req) {
     time: req.body.time,
     venue: req.body.venue,
     zone: req.body.zone,
-    image: req.body.image,
+    image: image,
     ticketCount: req.body.ticketCount,
     visibility: req.body.visibility,
     category: req.body.category,
@@ -34,6 +42,7 @@ async function createEvent(req) {
     userId: req.body.userId,
     status: true,
   });
+
   return await event.save();
 }
 
@@ -49,7 +58,7 @@ async function updateEvent(body, id) {
         time: body.time,
         venue: body.venue,
         zone: body.zone,
-        /*         image: body.image, */
+        /*image: body.image, */
         ticketCount: body.ticketCount,
         visibility: body.visibility,
         category: body.category,

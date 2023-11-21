@@ -1,5 +1,7 @@
 import express from "express";
 import verifyToken from "../middlewares/auth.js";
+import multer from "multer";
+
 import {
   eventsList,
   userEventsList,
@@ -53,17 +55,25 @@ route.get("/:id", (req, res) => {
 });
 
 //Agregar un nuevo evento
-route.post("/", verifyToken, (req, res) => {
-  let result = createEvent(req);
-  result
-    .then((event) => {
-      res.json({
-        event,
-      });
-    })
-    .catch((err) => {
-      res.status(400).json(err);
-    });
+const storage = multer.diskStorage({
+  destination: "./src/assets/imgs/",
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+
+const upload = multer({ storage });
+
+route.post("/", verifyToken, upload.single("cover"), async (req, res) => {
+  try {
+    const event = await createEvent(req);
+    res.json({ event });
+  } catch (err) {
+    res.status(400).json({ error: err.message || "Error creating event" });
+  }
 });
 
 //Actualizar los datos del evento.
