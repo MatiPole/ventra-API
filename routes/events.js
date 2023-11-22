@@ -8,6 +8,7 @@ import {
   findEvent,
   createEvent,
   updateEvent,
+  updateTickets,
   deleteEvent,
   findByName,
   filterCategory,
@@ -31,7 +32,7 @@ route.get("/", (req, res) => {
     });
 });
 //Búsqueda de los eventos del usuario
-route.get("/userEvents/:userId", (req, res) => {
+route.get("/userEvents/:userId", verifyToken, (req, res) => {
   let result = userEventsList(req.params.userId);
   result
     .then((events) => {
@@ -57,7 +58,7 @@ route.get("/:id", (req, res) => {
 //Agregar un nuevo evento
 
 const storage = multer.diskStorage({
-  destination: "./src/assets/imgs/",
+  destination: "./imgs/",
   filename: (req, file, cb) => {
     cb(
       null,
@@ -78,7 +79,7 @@ route.post("/", verifyToken, upload.single("cover"), async (req, res) => {
 });
 
 //Actualizar los datos del evento.
-route.put("/:id", (req, res) => {
+route.put("/:id", verifyToken, (req, res) => {
   let result = updateEvent(req.body, req.params.id);
   result
     .then((value) => {
@@ -92,8 +93,8 @@ route.put("/:id", (req, res) => {
 });
 
 //Actualizar cantidad de entradas restantes.
-route.patch("/:id", (req, res) => {
-  let result = updateTickets(req.body, req.params.id);
+route.patch("/:id", verifyToken, (req, res) => {
+  let result = updateTickets(req.params.id);
   result
     .then((value) => {
       res.json({
@@ -106,7 +107,7 @@ route.patch("/:id", (req, res) => {
 });
 
 //Eliminar un evento
-route.delete("/:id", (req, res) => {
+route.delete("/:id", verifyToken, (req, res) => {
   let result = deleteEvent(req.params.id);
   result
     .then((value) => {

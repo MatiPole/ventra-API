@@ -1,6 +1,15 @@
 import Wishlist from "../models/wishlist_models.js";
 
 async function createWishlist(body) {
+  const existingWishlistItem = await Wishlist.findOne({
+    eventId: body.eventId,
+    userId: body.userId,
+  });
+
+  if (existingWishlistItem) {
+    // Si ya existe, devolver un error o realizar la lógica que desees
+    throw new Error("Este evento ya está en tu lista de deseos.");
+  }
   let wishlist = new Wishlist({
     eventId: body.eventId,
     userId: body.userId,

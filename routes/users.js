@@ -14,36 +14,30 @@ import Joi from "joi";
 const route = express.Router();
 
 //Obtenemos todos los usuarios registrados
-route.get(
-  "/",
-  /* verifyToken,  */ (req, res) => {
-    let result = usersList();
-    result
-      .then((users) => {
-        res.json({
-          users,
-        });
-      })
-      .catch((err) => {
-        res.status(400).json({ err });
+route.get("/", verifyToken, (req, res) => {
+  let result = usersList();
+  result
+    .then((users) => {
+      res.json({
+        users,
       });
-  }
-);
+    })
+    .catch((err) => {
+      res.status(400).json({ err });
+    });
+});
 
 //Buscar usuario por id
-route.get(
-  "/:id",
-  /*  verifyToken,  */ (req, res) => {
-    let result = findUser(req.params.id);
-    result
-      .then((value) => {
-        res.json(value);
-      })
-      .catch((err) => {
-        res.status(400).json({ err });
-      });
-  }
-);
+route.get("/:id", verifyToken, (req, res) => {
+  let result = findUser(req.params.id);
+  result
+    .then((value) => {
+      res.json(value);
+    })
+    .catch((err) => {
+      res.status(400).json({ err });
+    });
+});
 
 //Validacioón para crear usuarios utilizando joi.
 const schema = Joi.object({
@@ -91,82 +85,67 @@ route.post("/", (req, res) => {
 });
 
 //Modifición de información del usuario (username, email y password)
-route.put(
-  "/update-user/:id",
-  /* verifyToken, */ (req, res) => {
-    let result = updateUser(req.body, req.params.id);
-    result
-      .then((value) => {
-        res.json({
-          value,
-        });
-      })
-      .catch((err) => {
-        res.status(400).json({ err });
+route.put("/update-user/:id", verifyToken, (req, res) => {
+  let result = updateUser(req.body, req.params.id);
+  result
+    .then((value) => {
+      res.json({
+        value,
       });
-  }
-);
+    })
+    .catch((err) => {
+      res.status(400).json({ err });
+    });
+});
 
 //Eliminar usuario por id
-route.delete(
-  "/:id",
-  /* verifyToken, */ (req, res) => {
-    let result = deleteUser(req.params.id);
-    result
-      .then((value) => {
-        res.json({
-          value,
-        });
-      })
-      .catch((err) => {
-        res.status(400).json(err);
+route.delete("/:id", verifyToken, (req, res) => {
+  let result = deleteUser(req.params.id);
+  result
+    .then((value) => {
+      res.json({
+        value,
       });
-  }
-);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
 
 //Paginado
-route.get(
-  "/limit-users",
-  /* verifyToken, */ (req, res) => {
-    let result = limitUsers(req.query.limit);
-    result
-      .then((value) => {
-        res.json(value);
-      })
-      .catch((err) => {
-        res.status(400).json(err);
-      });
-  }
-);
+route.get("/limit-users", verifyToken, (req, res) => {
+  let result = limitUsers(req.query.limit);
+  result
+    .then((value) => {
+      res.json(value);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
 
 //Buscar usuario por email
-route.get(
-  "/email/:email",
-  /* verifyToken, */ (req, res) => {
-    let result = findByEmail(req.params.email);
-    result
-      .then((value) => {
-        res.json(value);
-      })
-      .catch((err) => {
-        res.status(400).json({ err });
-      });
-  }
-);
+route.get("/email/:email", verifyToken, (req, res) => {
+  let result = findByEmail(req.params.email);
+  result
+    .then((value) => {
+      res.json(value);
+    })
+    .catch((err) => {
+      res.status(400).json({ err });
+    });
+});
 
 //Ordenamiento por email
-route.get(
-  "/order-by-email",
-  /* verifyToken, */ (req, res) => {
-    let result = orderByEmail();
-    result
-      .then((value) => {
-        res.json(value);
-      })
-      .catch((err) => {
-        res.status(400).json(err);
-      });
-  }
-);
+route.get("/order-by-email", verifyToken, (req, res) => {
+  let result = orderByEmail();
+  result
+    .then((value) => {
+      res.json(value);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
 
 export default route;

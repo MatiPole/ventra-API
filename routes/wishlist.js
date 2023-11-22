@@ -6,7 +6,7 @@ import {
 } from "../controllers/wishlist_controller.js";
 const route = express.Router();
 
-route.post("/", async (req, res) => {
+route.post("/", verifyToken, async (req, res) => {
   try {
     const wishlist = await createWishlist(req.body);
     res.json({ wishlist });
@@ -15,8 +15,8 @@ route.post("/", async (req, res) => {
   }
 });
 
-//Búsqueda por id
-route.get("/:id", (req, res) => {
+//Búsqueda por id del usuario
+route.get("/:id", verifyToken, (req, res) => {
   let result = findWishlist(req.params.id);
   result
     .then((value) => {

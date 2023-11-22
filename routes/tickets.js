@@ -6,7 +6,7 @@ import {
 } from "../controllers/tickets_controller.js";
 const route = express.Router();
 
-route.post("/", async (req, res) => {
+route.post("/", verifyToken, async (req, res) => {
   try {
     const ticket = await createTicket(req.body);
     res.json({ ticket });
@@ -15,8 +15,8 @@ route.post("/", async (req, res) => {
   }
 });
 
-//Búsqueda por id
-route.get("/:id", (req, res) => {
+//Búsqueda por id del usuario
+route.get("/:id", verifyToken, (req, res) => {
   let result = findTickets(req.params.id);
   result
     .then((value) => {
