@@ -76,7 +76,11 @@ async function deleteEvent(id) {
 }
 
 async function findByName(name) {
-  let event = await Events.find({ name: name });
+  let event = await Events.find({
+    name: name,
+    visibility: "public",
+    status: true,
+  });
   return event;
 }
 
@@ -98,12 +102,12 @@ async function limitEvents(page, limit) {
   return events;
 }
 
-async function updateTickets(body, id) {
+async function updateTickets(id) {
   let event = await Events.updateOne(
     { _id: id },
     {
-      $set: {
-        ticketCount: body.ticketCount,
+      $inc: {
+        ticketCount: -1,
       },
     }
   );

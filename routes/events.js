@@ -8,6 +8,7 @@ import {
   findEvent,
   createEvent,
   updateEvent,
+  updateTickets,
   deleteEvent,
   findByName,
   filterCategory,
@@ -57,7 +58,7 @@ route.get("/:id", (req, res) => {
 //Agregar un nuevo evento
 
 const storage = multer.diskStorage({
-  destination: "./src/assets/imgs/",
+  destination: "./imgs/",
   filename: (req, file, cb) => {
     cb(
       null,
@@ -93,7 +94,7 @@ route.put("/:id", (req, res) => {
 
 //Actualizar cantidad de entradas restantes.
 route.patch("/:id", (req, res) => {
-  let result = updateTickets(req.body, req.params.id);
+  let result = updateTickets(req.params.id);
   result
     .then((value) => {
       res.json({

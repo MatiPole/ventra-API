@@ -1,5 +1,5 @@
 import express from "express";
-import Usuario from "../models/users_models.js";
+import Users from "../models/users_models.js";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 const route = express.Router();
 
 route.post("/", (req, res) => {
-  Usuario.findOne({ email: req.body.email })
+  Users.findOne({ email: req.body.email })
     .then((data) => {
       if (data) {
         const passwordValid = bcrypt.compareSync(

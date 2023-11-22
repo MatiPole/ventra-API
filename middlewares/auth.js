@@ -9,7 +9,7 @@ let verifyToken = (req, res, next) => {
         err,
       });
     }
-    req.usuario = decoded.usuario;
+    req.user = decoded.user;
     next();
   });
 };
