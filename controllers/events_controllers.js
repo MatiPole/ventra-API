@@ -19,9 +19,7 @@ async function findEvent(id) {
 async function createEvent(req) {
   let image = null;
   if (req.file) {
-    image = {
-      route: req.file.path,
-    };
+    image = req.file.path;
   }
 
   let event = new Events({

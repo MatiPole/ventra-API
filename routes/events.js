@@ -131,20 +131,9 @@ route.get("/find-by-name/:name", (req, res) => {
       res.status(400).json(err);
     });
 });
-//Búsqueda por nombre
-/* route.get("/nombre/:nombre", verifyToken, (req, res) => {
-  let result = findPorNombre(req.params.nombre);
-  result
-    .then((value) => {
-      res.json(value);
-    })
-    .catch((err) => {
-      res.status(400).json({ err });
-    });
-}); */
 
 //Filtros
-//Filtro por pais de origen
+//Filtro por categoria
 route.get("/category/:category", (req, res) => {
   let result = filterCategory(req.params.category);
   result
@@ -155,18 +144,6 @@ route.get("/category/:category", (req, res) => {
       res.status(400).json(err);
     });
 });
-
-//Filtro por género
-/* route.get("/genero/:genero", verifyToken, (req, res) => {
-  let result = filterGenero(req.params.genero);
-  result
-    .then((value) => {
-      res.json(value);
-    })
-    .catch((err) => {
-      res.status(400).json(err);
-    });
-}); */
 
 //Paginado ejemplo: localhost:3000/events/limit-events?page=1&limit=2
 route.get("/limit-events", (req, res) => {
