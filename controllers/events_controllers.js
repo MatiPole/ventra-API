@@ -42,29 +42,32 @@ async function createEvent(req) {
 
   return await event.save();
 }
-async function updateEvent(body, id) {
-  let event = await Events.updateOne(
-    { _id: id },
-    {
-      $set: {
-        name: body.name,
-        description: body.description,
-        price: body.price,
-        date: body.date,
-        time: body.time,
-        venue: body.venue,
-        zone: body.zone,
-        /*image: body.image, */
-        ticketCount: body.ticketCount,
-        visibility: body.visibility,
-        category: body.category,
-        /*  isFree: body.isFree, */
-        userId: body.userId,
-        status: true,
-      },
-    }
-  );
-  return event;
+
+async function updateEvent(req, id) {
+  try {
+    let updateFields = {};
+
+    // Agregar campos no nulos a updateFields
+    if (req.body.name) updateFields.name = req.body.name;
+    if (req.body.description) updateFields.description = req.body.description;
+    if (req.body.price) updateFields.price = req.body.price;
+    if (req.body.date) updateFields.date = req.body.date;
+    if (req.body.time) updateFields.time = req.body.time;
+    if (req.body.venue) updateFields.venue = req.body.venue;
+    if (req.body.zone) updateFields.zone = req.body.zone;
+    if (req.file) updateFields.cover = req.file.path;
+    if (req.body.ticketCount) updateFields.ticketCount = req.body.ticketCount;
+    if (req.body.visibility) updateFields.visibility = req.body.visibility;
+    if (req.body.category) updateFields.category = req.body.category;
+    if (req.body.userId) updateFields.userId = req.body.userId;
+    updateFields.status = true;
+
+    let event = await Events.updateOne({ _id: id }, { $set: updateFields });
+
+    return event;
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function deleteEvent(id) {

@@ -79,8 +79,8 @@ route.post("/", verifyToken, upload.single("cover"), async (req, res) => {
 });
 
 //Actualizar los datos del evento.
-route.put("/:id", verifyToken, (req, res) => {
-  let result = updateEvent(req.body, req.params.id);
+route.patch("/:id", upload.single("cover"), (req, res) => {
+  let result = updateEvent(req, req.params.id);
   result
     .then((value) => {
       res.json({

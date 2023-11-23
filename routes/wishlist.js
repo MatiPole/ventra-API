@@ -3,6 +3,7 @@ import verifyToken from "../middlewares/auth.js";
 import {
   createWishlist,
   findWishlist,
+  deleteWishlist,
 } from "../controllers/wishlist_controller.js";
 const route = express.Router();
 
@@ -24,6 +25,20 @@ route.get("/:id", verifyToken, (req, res) => {
     })
     .catch((err) => {
       res.status(400).json({ err });
+    });
+});
+
+//Eliminar un favorito (wishlist)
+route.delete("/:eventId/:userId", verifyToken, (req, res) => {
+  let result = deleteWishlist(req.params.eventId, req.params.userId);
+  result
+    .then((value) => {
+      res.json({
+        value,
+      });
+    })
+    .catch((err) => {
+      res.status(400).json(err);
     });
 });
 

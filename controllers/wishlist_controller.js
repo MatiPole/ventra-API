@@ -28,4 +28,9 @@ async function findWishlist(id) {
   return wishlist;
 }
 
-export { createWishlist, findWishlist };
+async function deleteWishlist(eventId, userId) {
+  let wishlist = await Wishlist.deleteOne({ eventId: eventId, userId: userId });
+  return wishlist;
+}
+
+export { createWishlist, findWishlist, deleteWishlist };
