@@ -19,10 +19,7 @@ async function findEvent(id) {
 async function createEvent(req) {
   let image = null;
   if (req.file) {
-    image = {
-      data: req.file.buffer,
-      contentType: req.file.mimetype,
-    };
+    image = req.file.path;
   }
 
   let event = new Events({
