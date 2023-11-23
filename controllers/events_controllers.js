@@ -17,7 +17,7 @@ async function findEvent(id) {
 }
 
 async function createEvent(req) {
-  let image = null;
+  let image = "imgs/default-cover-img.jpg";
   if (req.file) {
     image = req.file.path;
   }
