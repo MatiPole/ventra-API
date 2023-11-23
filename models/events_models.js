@@ -32,8 +32,7 @@ const eventsSchema = new mongoose.Schema({
     required: true,
   },
   cover: {
-    type: String,
-    required: false,
+    route: String,
   },
   ticketCount: {
     type: Number,

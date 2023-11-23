@@ -20,8 +20,7 @@ async function createEvent(req) {
   let image = null;
   if (req.file) {
     image = {
-      data: req.file.buffer,
-      contentType: req.file.mimetype,
+      route: req.file.path,
     };
   }
 
@@ -43,7 +42,7 @@ async function createEvent(req) {
     status: true,
   });
 
-  return console.log(event), await event.save();
+  return await event.save();
 }
 async function updateEvent(body, id) {
   let event = await Events.updateOne(
