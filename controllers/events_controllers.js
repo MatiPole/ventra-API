@@ -1,8 +1,10 @@
 import Events from "../models/events_models.js";
 
 //Se buscan todas las bandas con status true.
-async function eventsList() {
-  let events = await Events.find({ status: true, visibility: "public" });
+async function eventsList(amount, skip) {
+  let events = await Events.find({ status: true, visibility: "public" })
+    .limit(amount)
+    .skip(skip);
   return events;
 }
 
@@ -76,8 +78,9 @@ async function deleteEvent(id) {
 }
 
 async function findByName(name) {
+  let nameInsensitive = "(?i)" + name;
   let event = await Events.find({
-    name: name,
+    name: { $regex: nameInsensitive },
     visibility: "public",
     status: true,
   });

@@ -22,7 +22,10 @@ const route = express.Router();
 
 //Búsqueda de todos los eventos
 route.get("/", (req, res) => {
-  let result = eventsList();
+  const page = req.query.page;
+  const amount = req.query.amount;
+  const skip = (page - 1) * amount;
+  let result = eventsList(amount, skip);
   result
     .then((events) => {
       res.json(events);
