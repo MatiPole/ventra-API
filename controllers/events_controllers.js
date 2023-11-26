@@ -8,6 +8,11 @@ async function eventsList(amount, skip) {
   return events;
 }
 
+async function allEventsList() {
+  let events = await Events.find({ status: true, visibility: "public" });
+  return events;
+}
+
 async function userEventsList(userId) {
   let events = await Events.find({ userId: userId });
   return events;
@@ -119,6 +124,7 @@ async function updateTickets(id) {
 
 export {
   eventsList,
+  allEventsList,
   userEventsList,
   findEvent,
   createEvent,

@@ -13,6 +13,7 @@ import {
   findByName,
   filterCategory,
   orderByPrice,
+  allEventsList,
   limitEvents,
 } from "../controllers/events_controllers.js";
 
@@ -25,15 +26,29 @@ route.get("/", (req, res) => {
   const page = req.query.page;
   const amount = req.query.amount;
   const skip = (page - 1) * amount;
-  let result = eventsList(amount, skip);
-  result
-    .then((events) => {
-      res.json(events);
-    })
-    .catch((err) => {
-      res.status(400).json(err);
-    });
+  if (page && amount) {
+    let result = eventsList(amount, skip);
+    result
+      .then((events) => {
+        res.json(events);
+      })
+      .catch((err) => {
+        res.status(400).json(err);
+      });
+  } else {
+    let result = allEventsList();
+    result
+      .then((events) => {
+        res.json({
+          events,
+        });
+      })
+      .catch((err) => {
+        res.status(400).json({ err });
+      });
+  }
 });
+
 //Búsqueda de los eventos del usuario
 route.get("/userEvents/:userId", verifyToken, (req, res) => {
   let result = userEventsList(req.params.userId);
