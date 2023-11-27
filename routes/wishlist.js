@@ -38,7 +38,7 @@ route.delete("/:eventId/:userId", verifyToken, (req, res) => {
       });
     })
     .catch((err) => {
-      res.status(400).json(err);
+      res.status(400).json("no esta logueado wishlist" + err);
     });
 });
 
