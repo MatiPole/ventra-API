@@ -18,6 +18,7 @@ async function createWishlist(body) {
     eventDate: body.eventDate,
     eventTime: body.eventTime,
     eventPrice: body.eventPrice,
+    eventCover: body.eventCover,
     status: body.status,
   });
   return await wishlist.save();

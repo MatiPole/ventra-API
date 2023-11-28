@@ -11,6 +11,7 @@ async function createTicket(body) {
     eventPrice: body.eventPrice,
     status: body.status,
   });
+  ticket.createdAt = Date.now();
   return await ticket.save();
 }
 

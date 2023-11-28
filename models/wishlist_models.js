@@ -29,6 +29,9 @@ const wishlistSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  eventCover: {
+    type: String,
+  },
   status: {
     type: Boolean,
     default: true,
