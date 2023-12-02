@@ -111,7 +111,7 @@ route.patch("/:id", upload.single("cover"), (req, res) => {
 });
 
 //Actualizar cantidad de entradas restantes.
-route.patch("/:id", verifyToken, (req, res) => {
+route.patch("/updateTickets/:id", verifyToken, (req, res) => {
   let result = updateTickets(req.params.id);
   result
     .then((value) => {
