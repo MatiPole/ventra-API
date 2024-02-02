@@ -97,6 +97,11 @@ async function filterCategory(category) {
   return event;
 }
 
+async function filterZone(zone) {
+  let event = await Events.find({ zone: zone });
+  return event;
+}
+
 async function orderByPrice() {
   /*   let event = await Events.find().sort({ nombre: 1 });
   return event; */
@@ -135,4 +140,5 @@ export {
   orderByPrice,
   limitEvents,
   updateTickets,
+  filterZone,
 };

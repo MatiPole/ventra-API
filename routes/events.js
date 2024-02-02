@@ -15,6 +15,7 @@ import {
   orderByPrice,
   allEventsList,
   limitEvents,
+  filterZone,
 } from "../controllers/events_controllers.js";
 
 const route = express.Router();
@@ -154,6 +155,17 @@ route.get("/find-by-name/:name", (req, res) => {
 //Filtro por categoria
 route.get("/category/:category", (req, res) => {
   let result = filterCategory(req.params.category);
+  result
+    .then((value) => {
+      res.json(value);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+route.get("/zone/:zone", (req, res) => {
+  let result = filterZone(req.params.zone);
   result
     .then((value) => {
       res.json(value);
