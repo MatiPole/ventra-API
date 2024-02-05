@@ -20,4 +20,19 @@ async function findTickets(id) {
   return event;
 }
 
-export { createTicket, findTickets };
+async function checkEventToDelete(id) {
+  try {
+    let tickets = await Tickets.find({ eventId: id });
+
+    // Verifica si hay algún ticket asociado al evento
+    if (tickets.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    throw error;
+  }
+}
+
+export { createTicket, findTickets, checkEventToDelete };
