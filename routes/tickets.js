@@ -3,6 +3,7 @@ import verifyToken from "../middlewares/auth.js";
 import {
   createTicket,
   findTickets,
+  checkEventToDelete,
 } from "../controllers/tickets_controller.js";
 const route = express.Router();
 
@@ -24,6 +25,17 @@ route.get("/:id", verifyToken, (req, res) => {
     })
     .catch((err) => {
       res.status(400).json({ err });
+    });
+});
+
+//Verificar evento a eliminar
+route.get("/checkEventToDelete/:eventId", verifyToken, (req, res) => {
+  checkEventToDelete(req.params.eventId)
+    .then((hasTickets) => {
+      res.json({ hasTickets });
+    })
+    .catch((err) => {
+      res.status(400).json({ error: err.message });
     });
 });
 
