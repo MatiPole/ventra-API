@@ -36,6 +36,7 @@ async function createEvent(req) {
     date: req.body.date,
     time: req.body.time,
     venue: req.body.venue,
+    address: req.body.address,
     zone: req.body.zone,
     cover: image,
     ticketCount: req.body.ticketCount,
@@ -61,6 +62,7 @@ async function updateEvent(req, id) {
     if (req.body.date) updateFields.date = req.body.date;
     if (req.body.time) updateFields.time = req.body.time;
     if (req.body.venue) updateFields.venue = req.body.venue;
+    if (req.body.address) updateFields.address = req.body.address;
     if (req.body.zone) updateFields.zone = req.body.zone;
     if (req.file) updateFields.cover = req.file.path;
     if (req.body.ticketCount) updateFields.ticketCount = req.body.ticketCount;

@@ -26,6 +26,10 @@ const eventsSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  address: {
+    type: Object,
+    required: true,
+  },
   zone: {
     type: String,
     required: true,
