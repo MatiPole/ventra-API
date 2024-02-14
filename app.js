@@ -11,7 +11,7 @@ import cors from "cors";
 import "dotenv/config";
 
 mongoose
-  .connect(/* process.env.CONNECT */ "mongodb://127.0.0.1:27017/ventradb", {
+  .connect(process.env.CONNECT /* "mongodb://127.0.0.1:27017/ventradb" */, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
