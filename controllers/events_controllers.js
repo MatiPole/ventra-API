@@ -94,6 +94,44 @@ async function findByName(name) {
   return event;
 }
 
+async function filterGeneral(
+  category = null,
+  zone = null,
+  minPrice = 0,
+  maxPrice
+) {
+  const filters = [
+    { category: category },
+    { zone: zone },
+    { price: [minPrice, maxPrice] },
+  ];
+  const finalFilters = [];
+  filters.map((filter) => {
+    const objectKeys = Object.keys(filter)[0];
+    const objectValues = Object.values(filter)[0];
+    if (objectValues !== null || objectValues !== undefined) {
+      if (objectKeys === "price") {
+        finalFilters.push({ price: { $gte: minPrice, $lte: maxPrice } });
+      } else {
+        finalFilters.push({ [objectKeys]: objectValues });
+      }
+    }
+  });
+
+  console.log(category, zone, minPrice, maxPrice);
+
+  // return finalFilters;
+  let event = await Events.find({
+    $and: finalFilters,
+    // $and: [
+    //   { category: category },
+    //   { zone: zone },
+    //   { price: { $gte: minPrice, $lte: maxPrice } },
+    // ],
+  });
+  return event;
+}
+
 async function filterCategory(category) {
   let event = await Events.find({ category: category });
   return event;
@@ -101,6 +139,35 @@ async function filterCategory(category) {
 
 async function filterZone(zone) {
   let event = await Events.find({ zone: zone });
+  return event;
+}
+
+async function filterPrice(minPrice, maxPrice) {
+  let event = await Events.find({ price: { $gte: minPrice, $lte: maxPrice } });
+  return event;
+}
+
+async function filterCategoryZone(category, zone) {
+  let event = await Events.find({
+    $and: [{ category: category }, { zone: zone }],
+  });
+  return event;
+}
+
+async function filterCategoryPrice(category, minPrice, maxPrice) {
+  let event = await Events.find({
+    $and: [
+      { category: category },
+      { price: { $gte: minPrice, $lte: maxPrice } },
+    ],
+  });
+  return event;
+}
+
+async function filterZonePrice(zone, minPrice, maxPrice) {
+  let event = await Events.find({
+    $and: [{ zone: zone }, { price: { $gte: minPrice, $lte: maxPrice } }],
+  });
   return event;
 }
 
@@ -143,4 +210,9 @@ export {
   limitEvents,
   updateTickets,
   filterZone,
+  filterGeneral,
+  filterCategoryZone,
+  filterPrice,
+  filterCategoryPrice,
+  filterZonePrice,
 };

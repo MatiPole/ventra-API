@@ -16,6 +16,11 @@ import {
   allEventsList,
   limitEvents,
   filterZone,
+  filterGeneral,
+  filterCategoryZone,
+  filterPrice,
+  filterCategoryPrice,
+  filterZonePrice,
 } from "../controllers/events_controllers.js";
 
 const route = express.Router();
@@ -24,29 +29,115 @@ const route = express.Router();
 
 //Búsqueda de todos los eventos
 route.get("/", (req, res) => {
-  const page = req.query.page;
-  const amount = req.query.amount;
+  const { page, amount, category, zone, minPrice, maxPrice } = req.query;
   const skip = (page - 1) * amount;
   if (page && amount) {
-    let result = eventsList(amount, skip);
-    result
-      .then((events) => {
-        res.json(events);
-      })
-      .catch((err) => {
-        res.status(400).json(err);
-      });
-  } else {
-    let result = allEventsList();
-    result
-      .then((events) => {
-        res.json({
-          events,
+    if (category || zone || maxPrice) {
+      let result = filterGeneral(category, zone, minPrice, maxPrice);
+      result
+        .then((events) => {
+          res.json(events);
+        })
+        .catch((err) => {
+          res.status(400).json(err);
         });
-      })
-      .catch((err) => {
-        res.status(400).json({ err });
-      });
+    } else {
+      let result = allEventsList();
+      result
+        .then((events) => {
+          res.json({
+            events,
+          });
+        })
+        .catch((err) => {
+          res.status(400).json({ err });
+        });
+    }
+    // let result = eventsList(amount, skip);
+    // result
+    //   .then((events) => {
+    //     res.json(events);
+    //   })
+    //   .catch((err) => {
+    //     res.status(400).json(err);
+    //   });
+    // } else if (category && zone && minPrice && maxPrice) {
+    //   let result = filterGeneral(category, zone, minPrice, maxPrice);
+    //   result
+    //     .then((events) => {
+    //       res.json({
+    //         events,
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       res.status(400).json({ err });
+    //     });
+    // } else if (category && !zone && !minPrice && !maxPrice) {
+    //   let result = filterCategory(category);
+    //   result
+    //     .then((events) => {
+    //       res.json({
+    //         events,
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       res.status(400).json({ err });
+    //     });
+    // } else if (!category && zone && !minPrice && !maxPrice) {
+    //   let result = filterZone(zone);
+    //   result
+    //     .then((events) => {
+    //       res.json({
+    //         events,
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       res.status(400).json({ err });
+    //     });
+    // } else if (category && zone && !minPrice && !maxPrice) {
+    //   let result = filterCategoryZone(category, zone);
+    //   result
+    //     .then((events) => {
+    //       res.json({
+    //         events,
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       res.status(400).json({ err });
+    //     });
+    // } else if (!category && !zone && minPrice && maxPrice) {
+    //   let result = filterPrice(minPrice, maxPrice);
+    //   result
+    //     .then((events) => {
+    //       res.json({
+    //         events,
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       res.status(400).json({ err });
+    //     });
+    // } else if (category && !zone && minPrice && maxPrice) {
+    //   let result = filterCategoryPrice(category, minPrice, maxPrice);
+    //   result
+    //     .then((events) => {
+    //       res.json({
+    //         events,
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       res.status(400).json({ err });
+    //     });
+    // } else if (!category && zone && minPrice && maxPrice) {
+    //   let result = filterZonePrice(zone, minPrice, maxPrice);
+    //   result
+    //     .then((events) => {
+    //       res.json({
+    //         events,
+    //       });
+    //     })
+    //     .catch((err) => {
+    //       res.status(400).json({ err });
+    //     });
   }
 });
 
