@@ -41,17 +41,6 @@ route.get("/", (req, res) => {
         .catch((err) => {
           res.status(400).json(err);
         });
-    } else {
-      let result = allEventsList();
-      result
-        .then((events) => {
-          res.json({
-            events,
-          });
-        })
-        .catch((err) => {
-          res.status(400).json({ err });
-        });
     }
     // let result = eventsList(amount, skip);
     // result
@@ -138,6 +127,18 @@ route.get("/", (req, res) => {
     //     .catch((err) => {
     //       res.status(400).json({ err });
     //     });
+    else {
+      let result = allEventsList();
+      result
+        .then((events) => {
+          res.json({
+            events,
+          });
+        })
+        .catch((err) => {
+          res.status(400).json({ err });
+        });
+    }
   }
 });
 

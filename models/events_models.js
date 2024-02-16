@@ -12,7 +12,7 @@ const eventsSchema = new mongoose.Schema({
   },
   price: {
     type: Number,
-    required: true,
+    required: false,
   },
   date: {
     type: Date,
@@ -39,7 +39,7 @@ const eventsSchema = new mongoose.Schema({
   },
   ticketCount: {
     type: Number,
-    required: true,
+    required: false,
   },
   visibility: {
     type: String,
