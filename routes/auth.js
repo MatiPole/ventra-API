@@ -16,7 +16,7 @@ route.post("/", (req, res) => {
         );
         if (!passwordValid) {
           return res.status(400).json({
-            message: "Contraseña incorrecta",
+            message: "password-error",
           });
         }
         const jwToken = jwt.sign(
@@ -35,7 +35,7 @@ route.post("/", (req, res) => {
         });
       } else {
         res.status(400).json({
-          message: "Usuario incorrecto",
+          message: "user-error",
         });
       }
     })
