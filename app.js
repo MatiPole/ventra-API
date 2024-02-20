@@ -5,6 +5,7 @@ import events from "./routes/events.js";
 import tickets from "./routes/tickets.js";
 import wishlist from "./routes/wishlist.js";
 import categories from "./routes/categories.js";
+import mercadopago from "./routes/mercadopago.js";
 import auth from "./routes/auth.js";
 import path from "path";
 import cors from "cors";
@@ -35,6 +36,7 @@ app.use("/events", events);
 app.use("/tickets", tickets);
 app.use("/wishlist", wishlist);
 app.use("/categories", categories);
+app.use("/mercadopago", mercadopago);
 app.get("/", function (req, res) {
   res.sendFile("./html/index.html", { root: __dirname });
 });
