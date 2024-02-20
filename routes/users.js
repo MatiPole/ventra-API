@@ -1,5 +1,6 @@
 import express from "express";
 import verifyToken from "../middlewares/auth.js";
+import Users from "../models/users_models.js";
 import {
   usersList,
   findByEmail,
@@ -39,36 +40,65 @@ route.get("/:id", verifyToken, (req, res) => {
     });
 });
 
-//Validacioón para crear usuarios utilizando joi.
+//Validación para crear usuarios utilizando joi.
 const schema = Joi.object({
-  username: Joi.string().alphanum().min(3).max(20).required(), //es requerido y tiene que tener entre 3 y 20 caracteres
+  username: Joi.string().alphanum().min(3).max(20).required(),
   password: Joi.string()
-    .pattern(
-      new RegExp(
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[^\\s]{6,20}$"
-      )
-    )
-    .required(), //requiere al menos una letra minúscula, una letra mayúscula, un número y al menos uno de los caracteres especiales(!@#$%^&*)
+    .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[^\\s]{6,}$"))
+    .required(), // requerir al menos una letra minúscula, una letra mayúscula y un número
   email: Joi.string().email({
     minDomainSegments: 2,
   }),
 });
 
 //  CREAR USUARIO
-route.post("/", (req, res) => {
+// CREAR USUARIO
+route.post("/", async (req, res) => {
   let body = req.body;
-  const { error, value } = schema.validate({
+  const { error } = schema.validate({
     username: body.username,
     email: body.email,
     password: body.password,
   });
-  if (!error) {
+
+  if (error) {
+    // Verificar qué campo falló y devolver el mensaje de error correspondiente
+    switch (error.details[0].context.key) {
+      case "username":
+        return res.status(400).json({
+          error:
+            "El nombre de usuario debe tener entre 3 y 20 caracteres alfanuméricos.",
+        });
+      case "password":
+        return res.status(400).json({
+          error:
+            "La contraseña debe tener al menos 6 caracteres, una letra minúscula, una letra mayúscula y un número.",
+        });
+      case "email":
+        return res
+          .status(400)
+          .json({ error: "El correo electrónico no es válido." });
+      default:
+        return res
+          .status(400)
+          .json({ error: "Error en los datos proporcionados." });
+    }
+  }
+
+  try {
+    // Verificar si el correo electrónico ya está registrado
+    const existingUser = await Users.findOne({ email: body.email });
+    if (existingUser) {
+      return res.status(400).json({
+        error: "El correo electrónico ya está registrado.",
+      });
+    }
+
+    // Si el correo electrónico no está registrado, crea el usuario
     let result = createUser(body);
     result
       .then((user) => {
-        res.json({
-          value: user,
-        });
+        res.json({ value: user });
       })
       .catch((err) => {
         res.status(400).json({
@@ -77,10 +107,8 @@ route.post("/", (req, res) => {
             "Error al crear un nuevo usuario, verifique los datos ingresados",
         });
       });
-  } else {
-    res.status(400).json({
-      error,
-    });
+  } catch (error) {
+    res.status(500).json({ error: "Error en el servidor." });
   }
 });
 
