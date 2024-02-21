@@ -1,18 +1,35 @@
 import Tickets from "../models/tickets_models.js";
 
 async function createTicket(body) {
-  let ticket = new Tickets({
-    eventId: body.eventId,
-    userId: body.userId,
-    eventName: body.eventName,
-    eventVenue: body.eventVenue,
-    eventDate: body.eventDate,
-    eventTime: body.eventTime,
-    eventPrice: body.eventPrice,
-    status: body.status,
-  });
-  ticket.createdAt = Date.now();
-  return await ticket.save();
+  try {
+    let checkTimestamp = await findTimestamp(body.timestamp);
+
+    if (checkTimestamp.length === 0) {
+      let ticket = new Tickets({
+        eventId: body.eventId,
+        userId: body.userId,
+        eventName: body.eventName,
+        eventVenue: body.eventVenue,
+        eventDate: body.eventDate,
+        eventTime: body.eventTime,
+        eventPrice: body.eventPrice,
+        status: body.status,
+        timestamp: body.timestamp,
+      });
+      ticket.createdAt = Date.now();
+      return await ticket.save();
+    } else {
+      throw new Error("Ya existe un ticket con el mismo timestamp.");
+    }
+  } catch (error) {
+    console.error("Error al crear el ticket:", error);
+    throw new Error("Error al crear el ticket.");
+  }
+}
+
+async function findTimestamp(timestamp) {
+  let ticket = await Tickets.find({ timestamp: timestamp });
+  return ticket;
 }
 
 async function findTickets(id) {

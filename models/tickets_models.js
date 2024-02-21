@@ -37,6 +37,10 @@ const ticketsSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  timestamp: {
+    type: Number,
+    required: true,
+  },
 });
 
 export default mongoose.model("Tickets", ticketsSchema);

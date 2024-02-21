@@ -9,6 +9,7 @@ const client = new MercadoPagoConfig({
 });
 
 route.post("/", verifyToken, async (req, res) => {
+  const timestamp = new Date().getTime();
   try {
     const body = {
       items: [
@@ -19,7 +20,7 @@ route.post("/", verifyToken, async (req, res) => {
         },
       ],
       back_urls: {
-        success: `http://localhost:5173/detalle/comprar/pago/${req.body.name}/${req.body.eventId}/${req.body.amount}`,
+        success: `http://localhost:5173/detalle/comprar/pago/${req.body.name}/${req.body.eventId}/${req.body.amount}/${timestamp}`,
         failure: "http://localhost:3000",
         pending: "http://localhost:3000",
       },
