@@ -20,7 +20,7 @@ const eventsSchema = new mongoose.Schema({
   },
   time: {
     type: String,
-    required: false,
+    required: true,
   },
   venue: {
     type: String,
@@ -39,7 +39,7 @@ const eventsSchema = new mongoose.Schema({
   },
   ticketCount: {
     type: Number,
-    required: false,
+    required: true,
   },
   visibility: {
     type: String,
@@ -47,11 +47,11 @@ const eventsSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    required: false,
+    required: true,
   },
   isFree: {
     type: Boolean,
-    required: false,
+    required: true,
   },
   termsAndConditions: {
     type: Boolean,
