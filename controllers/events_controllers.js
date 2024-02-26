@@ -109,7 +109,12 @@ async function filterGeneral(
   filters.map((filter) => {
     const objectKeys = Object.keys(filter)[0];
     const objectValues = Object.values(filter)[0];
-    if (objectValues !== null || objectValues !== undefined) {
+    if (
+      objectValues !== null &&
+      objectValues !== undefined &&
+      (objectKeys == "zone" || objectKeys == "category") &&
+      objectValues !== ""
+    ) {
       if (objectKeys === "price") {
         finalFilters.push({ price: { $gte: minPrice, $lte: maxPrice } });
       } else {
@@ -117,63 +122,12 @@ async function filterGeneral(
       }
     }
   });
-
-  console.log(category, zone, minPrice, maxPrice);
-
-  // return finalFilters;
   let event = await Events.find({
     $and: finalFilters,
-    // $and: [
-    //   { category: category },
-    //   { zone: zone },
-    //   { price: { $gte: minPrice, $lte: maxPrice } },
-    // ],
   });
+  console.log(typeof zone, zone);
+  console.log(finalFilters);
   return event;
-}
-
-async function filterCategory(category) {
-  let event = await Events.find({ category: category });
-  return event;
-}
-
-async function filterZone(zone) {
-  let event = await Events.find({ zone: zone });
-  return event;
-}
-
-async function filterPrice(minPrice, maxPrice) {
-  let event = await Events.find({ price: { $gte: minPrice, $lte: maxPrice } });
-  return event;
-}
-
-async function filterCategoryZone(category, zone) {
-  let event = await Events.find({
-    $and: [{ category: category }, { zone: zone }],
-  });
-  return event;
-}
-
-async function filterCategoryPrice(category, minPrice, maxPrice) {
-  let event = await Events.find({
-    $and: [
-      { category: category },
-      { price: { $gte: minPrice, $lte: maxPrice } },
-    ],
-  });
-  return event;
-}
-
-async function filterZonePrice(zone, minPrice, maxPrice) {
-  let event = await Events.find({
-    $and: [{ zone: zone }, { price: { $gte: minPrice, $lte: maxPrice } }],
-  });
-  return event;
-}
-
-async function orderByPrice() {
-  /*   let event = await Events.find().sort({ nombre: 1 });
-  return event; */
 }
 
 async function limitEvents(page, limit) {
@@ -205,14 +159,7 @@ export {
   updateEvent,
   deleteEvent,
   findByName,
-  filterCategory,
-  orderByPrice,
   limitEvents,
   updateTickets,
-  filterZone,
   filterGeneral,
-  filterCategoryZone,
-  filterPrice,
-  filterCategoryPrice,
-  filterZonePrice,
 };

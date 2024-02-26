@@ -11,16 +11,9 @@ import {
   updateTickets,
   deleteEvent,
   findByName,
-  filterCategory,
-  orderByPrice,
   allEventsList,
   limitEvents,
-  filterZone,
   filterGeneral,
-  filterCategoryZone,
-  filterPrice,
-  filterCategoryPrice,
-  filterZonePrice,
 } from "../controllers/events_controllers.js";
 
 const route = express.Router();

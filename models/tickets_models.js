@@ -41,6 +41,11 @@ const ticketsSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  state: {
+    type: String,
+    required: false,
+    default: "available",
+  },
 });
 
 export default mongoose.model("Tickets", ticketsSchema);
