@@ -7,6 +7,7 @@ import {
   findUser,
   createUser,
   updateUser,
+  completeCreatorData,
   deleteUser,
   limitUsers,
   orderByEmail,
@@ -115,6 +116,20 @@ route.post("/", async (req, res) => {
 //Modifición de información del usuario (username, email y password)
 route.put("/update-user/:id", verifyToken, (req, res) => {
   let result = updateUser(req.body, req.params.id);
+  result
+    .then((value) => {
+      res.json({
+        value,
+      });
+    })
+    .catch((err) => {
+      res.status(400).json({ err });
+    });
+});
+
+//Completar datos bancarios
+route.put("/complete-creator-data/:id", verifyToken, (req, res) => {
+  let result = completeCreatorData(req.body, req.params.id);
   result
     .then((value) => {
       res.json({

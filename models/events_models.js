@@ -57,6 +57,10 @@ const eventsSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  approve: {
+    type: Boolean,
+    required: false,
+  },
   userId: {
     type: String,
     required: false,
