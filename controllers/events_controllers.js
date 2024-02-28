@@ -45,7 +45,7 @@ async function createEvent(req) {
     isFree: req.body.isFree,
     termsAndConditions: req.body.termsAndConditions,
     userId: req.body.userId,
-    status: true,
+    status: false,
   });
 
   return await event.save();

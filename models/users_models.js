@@ -14,6 +14,25 @@ const usersSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  nameOwner: {
+    type: String,
+    required: false,
+  },
+  cuitCuil: {
+    type: String,
+    required: false,
+  },
+  bank: {
+    type: String,
+    required: false,
+  },
+  cbuCvu: {
+    type: String,
+    required: false,
+  },
+  completeData: {
+    type: Boolean,
+  },
   status: {
     type: Boolean,
     default: true,

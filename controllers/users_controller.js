@@ -33,6 +33,22 @@ async function updateUser(body, id) {
   return user;
 }
 
+async function completeCreatorData(body, id) {
+  let user = await Users.updateOne(
+    { _id: id },
+    {
+      $set: {
+        nameOwner: body.nameOwner,
+        cuitCuil: body.cuitCuil,
+        bank: body.bank,
+        cbuCvu: body.cbuCvu,
+        completeData: true,
+      },
+    }
+  );
+  return user;
+}
+
 async function deleteUser(id) {
   let user = await Users.deleteOne({ _id: id });
   return user;
@@ -58,6 +74,7 @@ export {
   findUser,
   createUser,
   updateUser,
+  completeCreatorData,
   deleteUser,
   limitUsers,
   orderByEmail,
