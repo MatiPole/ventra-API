@@ -52,4 +52,9 @@ async function checkEventToDelete(id) {
   }
 }
 
-export { createTicket, findTickets, checkEventToDelete };
+async function deleteTicket(ticketId) {
+  let ticket = await Tickets.deleteOne({ _id: ticketId });
+  return ticket;
+}
+
+export { createTicket, findTickets, checkEventToDelete, deleteTicket };

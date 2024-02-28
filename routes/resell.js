@@ -3,6 +3,7 @@ import verifyToken from "../middlewares/auth.js";
 import {
   publishToResell,
   getResellList,
+  deleteReselledTicket,
 } from "../controllers/resell_controller.js";
 const route = express.Router();
 
@@ -20,6 +21,17 @@ route.get("/:eventId", verifyToken, (req, res) => {
   result
     .then((resellTickets) => {
       res.json(resellTickets);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+route.delete("/:resellId", verifyToken, (req, res) => {
+  let result = deleteReselledTicket(req.params.resellId);
+  result
+    .then((deletedTicket) => {
+      res.json(deletedTicket);
     })
     .catch((err) => {
       res.status(400).json(err);

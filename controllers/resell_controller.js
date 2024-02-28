@@ -4,6 +4,7 @@ async function publishToResell(body) {
   let publishedTicket = new Resell({
     eventId: body.eventId,
     userId: body.userId,
+    username: body.username,
     ticketId: body.ticketId,
     ticketPrice: body.ticketPrice,
     status: body.status,
@@ -16,4 +17,9 @@ async function getResellList(eventId) {
   return resellList;
 }
 
-export { publishToResell, getResellList };
+async function deleteReselledTicket(resellId) {
+  let deletedTicket = await Resell.deleteOne({ _id: resellId });
+  return deletedTicket;
+}
+
+export { publishToResell, getResellList, deleteReselledTicket };

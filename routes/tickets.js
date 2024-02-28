@@ -4,6 +4,7 @@ import {
   createTicket,
   findTickets,
   checkEventToDelete,
+  deleteTicket,
 } from "../controllers/tickets_controller.js";
 const route = express.Router();
 
@@ -37,6 +38,13 @@ route.get("/checkEventToDelete/:eventId", verifyToken, (req, res) => {
     .catch((err) => {
       res.status(400).json({ error: err.message });
     });
+});
+
+route.delete("/:ticketId", verifyToken, (req, res) => {
+  let result = deleteTicket(req.params.ticketId);
+  result.then((deleted) => {
+    res.json(deleted);
+  });
 });
 
 export default route;

@@ -9,6 +9,10 @@ const resellSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  username: {
+    type: String,
+    required: true,
+  },
   ticketId: {
     type: String,
     required: true,

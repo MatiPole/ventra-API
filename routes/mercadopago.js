@@ -41,4 +41,38 @@ route.post("/", verifyToken, async (req, res) => {
   }
 });
 
+route.post("/resell", verifyToken, async (req, res) => {
+  const timestamp = new Date().getTime();
+  console.log(req.body);
+  try {
+    const body = {
+      items: [
+        {
+          title: req.body.title,
+          quantity: Number(req.body.quantity),
+          unit_price: Number(req.body.price),
+        },
+      ],
+      back_urls: {
+        success: `http://localhost:5173/reventa/comprar/${req.body.title}/${req.body.eventId}/${req.body.ticketId}/${req.body.resellId}/${timestamp}`,
+        failure: "http://localhost:3000",
+        pending: "http://localhost:3000",
+      },
+      auto_return: "approved",
+    };
+
+    const preference = new Preference(client);
+    const result = await preference.create({ body });
+
+    res.json({
+      id: result.id,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Error al crear la preferencia de reventa",
+    });
+  }
+});
+
 export default route;
