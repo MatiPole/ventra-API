@@ -9,7 +9,11 @@ async function eventsList(amount, skip) {
 }
 
 async function allEventsList() {
-  let events = await Events.find({ status: true, visibility: "public" });
+  let events = await Events.find({
+    status: true,
+    approve: "approve",
+    visibility: "public",
+  });
   return events;
 }
 
@@ -45,7 +49,8 @@ async function createEvent(req) {
     isFree: req.body.isFree,
     termsAndConditions: req.body.termsAndConditions,
     userId: req.body.userId,
-    status: false,
+    status: req.body.status,
+    status: "pending",
   });
 
   return await event.save();
@@ -69,7 +74,7 @@ async function updateEvent(req, id) {
     if (req.body.visibility) updateFields.visibility = req.body.visibility;
     if (req.body.category) updateFields.category = req.body.category;
     if (req.body.userId) updateFields.userId = req.body.userId;
-    updateFields.status = true;
+    if (req.body.status) updateFields.status = req.body.status;
 
     let event = await Events.updateOne({ _id: id }, { $set: updateFields });
 
