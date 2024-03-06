@@ -41,8 +41,7 @@ route.get("/", (req, res) => {
   const skip = (page - 1) * amount;
   if (page && amount) {
     if (category || zone || maxPrice) {
-      let result = filterGeneral(category, zone, minPrice, maxPrice);
-      result
+      filterGeneral(category, zone, minPrice, maxPrice, skip, amount)
         .then((events) => {
           res.json(events);
         })
@@ -50,17 +49,22 @@ route.get("/", (req, res) => {
           res.status(400).json(err);
         });
     } else {
-      let result = allEventsList();
-      result
+      limitEvents(page, amount)
         .then((events) => {
-          res.json({
-            events,
-          });
+          res.json({ events });
         })
         .catch((err) => {
           res.status(400).json({ err });
         });
     }
+  } else {
+    allEventsList()
+      .then((events) => {
+        res.json({ events });
+      })
+      .catch((err) => {
+        res.status(400).json({ err });
+      });
   }
 });
 

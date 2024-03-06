@@ -55,7 +55,7 @@ async function createEvent(req) {
     termsAndConditions: req.body.termsAndConditions,
     userId: req.body.userId,
     status: req.body.status,
-    status: "pending",
+    approve: "pending",
   });
 
   return await event.save();
@@ -133,7 +133,9 @@ async function filterGeneral(
     if (
       objectValues !== null &&
       objectValues !== undefined &&
-      (objectKeys == "zone" || objectKeys == "category") &&
+      (objectKeys == "zone" ||
+        objectKeys == "category" ||
+        objectKeys == "price") &&
       objectValues !== ""
     ) {
       if (objectKeys === "price") {
@@ -146,8 +148,9 @@ async function filterGeneral(
   let event = await Events.find({
     $and: finalFilters,
   });
-  console.log(typeof zone, zone);
-  console.log(finalFilters);
+  // console.log("minPrice", minPrice, "maxPrice", maxPrice);
+  // console.log(typeof zone, zone);
+  // console.log(finalFilters);
   return event;
 }
 
