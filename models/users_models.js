@@ -33,7 +33,7 @@ const usersSchema = new mongoose.Schema({
   completeData: {
     type: Boolean,
   },
-  rol: {
+  role: {
     type: Number,
     required: false,
   },
