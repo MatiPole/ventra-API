@@ -58,8 +58,9 @@ const eventsSchema = new mongoose.Schema({
     required: true,
   },
   approve: {
-    type: Boolean,
+    type: String,
     required: false,
+    default: "pending",
   },
   userId: {
     type: String,
