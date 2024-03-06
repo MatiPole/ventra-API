@@ -52,9 +52,23 @@ async function checkEventToDelete(id) {
   }
 }
 
+async function updateTicket(req, id) {
+  let ticket = await Tickets.updateOne(
+    { _id: id },
+    { $set: { state: req.body.state } }
+  );
+  return ticket;
+}
+
 async function deleteTicket(ticketId) {
   let ticket = await Tickets.deleteOne({ _id: ticketId });
   return ticket;
 }
 
-export { createTicket, findTickets, checkEventToDelete, deleteTicket };
+export {
+  createTicket,
+  findTickets,
+  checkEventToDelete,
+  deleteTicket,
+  updateTicket,
+};
