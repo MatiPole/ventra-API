@@ -17,6 +17,11 @@ async function allEventsList() {
   return events;
 }
 
+async function allEventsAdminList() {
+  let events = await Events.find();
+  return events;
+}
+
 async function userEventsList(userId) {
   let events = await Events.find({ userId: userId });
   return events;
@@ -79,6 +84,17 @@ async function updateEvent(req, id) {
     let event = await Events.updateOne({ _id: id }, { $set: updateFields });
 
     return event;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function updateEventApprove(req, id) {
+  try {
+    return await Events.updateOne(
+      { _id: id },
+      { $set: { approve: req.body.approve } }
+    );
   } catch (error) {
     throw error;
   }
@@ -167,4 +183,6 @@ export {
   limitEvents,
   updateTickets,
   filterGeneral,
+  allEventsAdminList,
+  updateEventApprove,
 };

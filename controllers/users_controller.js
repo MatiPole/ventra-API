@@ -16,6 +16,7 @@ async function createUser(body) {
     username: body.username,
     email: body.email,
     password: bcrypt.hashSync(body.password, 10),
+    rol: 2,
   });
   return await user.save();
 }

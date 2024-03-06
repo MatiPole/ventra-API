@@ -14,11 +14,26 @@ import {
   allEventsList,
   limitEvents,
   filterGeneral,
+  allEventsAdminList,
+  updateEventApprove,
 } from "../controllers/events_controllers.js";
 
 const route = express.Router();
 
 //En todas las rutas aplicamos autenticación por medio de nuestro middleware verifyToken
+//Búsqueda eventos para adminsitrador
+route.get("/events-admin", verifyToken, (req, res) => {
+  let result = allEventsAdminList();
+  result
+    .then((events) => {
+      res.json({
+        events,
+      });
+    })
+    .catch((err) => {
+      res.status(400).json({ err });
+    });
+});
 
 //Búsqueda de todos los eventos
 route.get("/", (req, res) => {
@@ -34,93 +49,7 @@ route.get("/", (req, res) => {
         .catch((err) => {
           res.status(400).json(err);
         });
-    }
-    // let result = eventsList(amount, skip);
-    // result
-    //   .then((events) => {
-    //     res.json(events);
-    //   })
-    //   .catch((err) => {
-    //     res.status(400).json(err);
-    //   });
-    // } else if (category && zone && minPrice && maxPrice) {
-    //   let result = filterGeneral(category, zone, minPrice, maxPrice);
-    //   result
-    //     .then((events) => {
-    //       res.json({
-    //         events,
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       res.status(400).json({ err });
-    //     });
-    // } else if (category && !zone && !minPrice && !maxPrice) {
-    //   let result = filterCategory(category);
-    //   result
-    //     .then((events) => {
-    //       res.json({
-    //         events,
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       res.status(400).json({ err });
-    //     });
-    // } else if (!category && zone && !minPrice && !maxPrice) {
-    //   let result = filterZone(zone);
-    //   result
-    //     .then((events) => {
-    //       res.json({
-    //         events,
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       res.status(400).json({ err });
-    //     });
-    // } else if (category && zone && !minPrice && !maxPrice) {
-    //   let result = filterCategoryZone(category, zone);
-    //   result
-    //     .then((events) => {
-    //       res.json({
-    //         events,
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       res.status(400).json({ err });
-    //     });
-    // } else if (!category && !zone && minPrice && maxPrice) {
-    //   let result = filterPrice(minPrice, maxPrice);
-    //   result
-    //     .then((events) => {
-    //       res.json({
-    //         events,
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       res.status(400).json({ err });
-    //     });
-    // } else if (category && !zone && minPrice && maxPrice) {
-    //   let result = filterCategoryPrice(category, minPrice, maxPrice);
-    //   result
-    //     .then((events) => {
-    //       res.json({
-    //         events,
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       res.status(400).json({ err });
-    //     });
-    // } else if (!category && zone && minPrice && maxPrice) {
-    //   let result = filterZonePrice(zone, minPrice, maxPrice);
-    //   result
-    //     .then((events) => {
-    //       res.json({
-    //         events,
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       res.status(400).json({ err });
-    //     });
-    else {
+    } else {
       let result = allEventsList();
       result
         .then((events) => {
@@ -207,6 +136,26 @@ route.patch("/updateTickets/:id", verifyToken, (req, res) => {
     })
     .catch((err) => {
       res.status(400).json(err);
+    });
+});
+
+//Actualizar aprobación del evento.
+
+route.patch("/approvement/:id", (req, res) => {
+  updateEventApprove(req, req.params.id)
+    .then((value) => {
+      res.json({
+        success: true,
+        message: "Evento actualizado correctamente",
+        value,
+      });
+    })
+    .catch((err) => {
+      res.status(400).json({
+        success: false,
+        message: "Error al actualizar el evento",
+        error: err.message,
+      });
     });
 });
 
