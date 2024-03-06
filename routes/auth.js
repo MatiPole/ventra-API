@@ -21,7 +21,7 @@ route.post("/", (req, res) => {
         }
         const jwToken = jwt.sign(
           {
-            user: { _id: data._id, email: data.email },
+            user: { _id: data._id, email: data.email, role: data.role },
           },
           process.env.SEED,
           { expiresIn: process.env.EXPIRATION }
@@ -30,6 +30,7 @@ route.post("/", (req, res) => {
           user: {
             _id: data._id,
             email: data.email,
+            role: data.role,
           },
           jwToken,
         });
