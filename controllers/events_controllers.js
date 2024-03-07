@@ -146,6 +146,9 @@ async function filterGeneral(
     }
   });
   let event = await Events.find({
+    status: true,
+    approve: "approve",
+    visibility: "public",
     $and: finalFilters,
   });
   // console.log("minPrice", minPrice, "maxPrice", maxPrice);
@@ -158,7 +161,13 @@ async function limitEvents(page, limit) {
   const pages = parseInt(page);
   const limits = parseInt(limit);
   const skip = (pages - 1) * limits;
-  const events = await Events.find().limit(limits).skip(skip);
+  const events = await Events.find({
+    status: true,
+    approve: "approve",
+    visibility: "public",
+  })
+    .limit(limits)
+    .skip(skip);
   return events;
 }
 
