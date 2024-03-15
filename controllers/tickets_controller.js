@@ -65,6 +65,14 @@ async function updateTicket(req, id) {
   return ticket;
 }
 
+async function transferTicket(req, id) {
+  let ticket = await Tickets.updateOne(
+    { _id: id },
+    { $set: { userId: req.body.userId } }
+  );
+  return ticket;
+}
+
 async function deleteTicket(ticketId) {
   let ticket = await Tickets.deleteOne({ _id: ticketId });
   return ticket;
@@ -77,4 +85,5 @@ export {
   deleteTicket,
   updateTicket,
   findSoldTickets,
+  transferTicket,
 };

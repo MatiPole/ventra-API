@@ -7,6 +7,7 @@ import {
   deleteTicket,
   updateTicket,
   findSoldTickets,
+  transferTicket,
 } from "../controllers/tickets_controller.js";
 const route = express.Router();
 
@@ -56,6 +57,13 @@ route.get("/checkEventToDelete/:eventId", verifyToken, (req, res) => {
 
 route.patch("/:ticketId", verifyToken, (req, res) => {
   let result = updateTicket(req, req.params.ticketId);
+  result.then((ticket) => {
+    res.json(ticket);
+  });
+});
+
+route.patch("/transfer/:ticketId", verifyToken, (req, res) => {
+  let result = transferTicket(req, req.params.ticketId);
   result.then((ticket) => {
     res.json(ticket);
   });
