@@ -17,6 +17,14 @@ async function allEventsList() {
   return events;
 }
 
+async function getFeaturedEvents() {
+  let events = await Events.find({
+    status: true,
+    featured: true,
+  });
+  return events;
+}
+
 async function allEventsAdminList() {
   let events = await Events.find();
   return events;
@@ -151,9 +159,6 @@ async function filterGeneral(
     visibility: "public",
     $and: finalFilters,
   });
-  // console.log("minPrice", minPrice, "maxPrice", maxPrice);
-  // console.log(typeof zone, zone);
-  // console.log(finalFilters);
   return event;
 }
 
@@ -197,4 +202,5 @@ export {
   filterGeneral,
   allEventsAdminList,
   updateEventApprove,
+  getFeaturedEvents,
 };

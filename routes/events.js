@@ -16,6 +16,7 @@ import {
   filterGeneral,
   allEventsAdminList,
   updateEventApprove,
+  getFeaturedEvents,
 } from "../controllers/events_controllers.js";
 
 const route = express.Router();
@@ -66,6 +67,17 @@ route.get("/", (req, res) => {
         res.status(400).json({ err });
       });
   }
+});
+
+route.get("/featured", (req, res) => {
+  let result = getFeaturedEvents();
+  result
+    .then((events) => {
+      res.json(events);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
 });
 
 //Búsqueda de los eventos del usuario
