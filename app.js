@@ -7,6 +7,7 @@ import wishlist from "./routes/wishlist.js";
 import categories from "./routes/categories.js";
 import mercadopago from "./routes/mercadopago.js";
 import resell from "./routes/resell.js";
+import todoList from "./routes/todoList.js";
 import auth from "./routes/auth.js";
 import path from "path";
 import cors from "cors";
@@ -39,6 +40,7 @@ app.use("/wishlist", wishlist);
 app.use("/categories", categories);
 app.use("/mercadopago", mercadopago);
 app.use("/resell", resell);
+app.use("/todoList", todoList);
 app.get("/", function (req, res) {
   res.sendFile("./html/index.html", { root: __dirname });
 });

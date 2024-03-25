@@ -17,6 +17,7 @@ import {
   allEventsAdminList,
   updateEventApprove,
   getFeaturedEvents,
+  updateEventFeatured,
 } from "../controllers/events_controllers.js";
 
 const route = express.Router();
@@ -77,6 +78,25 @@ route.get("/featured", (req, res) => {
     })
     .catch((err) => {
       res.status(400).json(err);
+    });
+});
+
+//Actualizar eventos destacados
+route.patch("/featured/:id", (req, res) => {
+  updateEventFeatured(req, req.params.id)
+    .then((value) => {
+      res.json({
+        success: true,
+        message: "Evento actualizado correctamente",
+        value,
+      });
+    })
+    .catch((err) => {
+      res.status(400).json({
+        success: false,
+        message: "Error al actualizar el evento",
+        error: err.message,
+      });
     });
 });
 

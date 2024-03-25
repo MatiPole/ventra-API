@@ -37,6 +37,11 @@ async function findTickets(id) {
   return event;
 }
 
+async function findSoldTickets(id) {
+  let event = await Tickets.find({ eventId: id });
+  return event;
+}
+
 async function checkEventToDelete(id) {
   try {
     let tickets = await Tickets.find({ eventId: id });
@@ -79,5 +84,6 @@ export {
   checkEventToDelete,
   deleteTicket,
   updateTicket,
+  findSoldTickets,
   transferTicket,
 };
