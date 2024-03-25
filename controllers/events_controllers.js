@@ -109,9 +109,29 @@ async function updateEventApprove(req, id) {
 }
 
 async function deleteEvent(id) {
-  let event = await Events.deleteOne({ _id: id });
-  return event;
+  try {
+    const event = await Events.findById(id);
+    if (event) {
+      await deleteFile(event.cover);
+      let event = await Events.deleteOne({ _id: id });
+    }
+    return event;
+  } catch (err) {
+    res.status(400).send(err + "Error al eliminar la clase");
+  }
 }
+
+const deleteFile = async (filePath) => {
+  try {
+    if (fs.existsSync(filePath)) {
+      // Eliminar el archivo
+      fs.unlinkSync(filePath);
+    }
+  } catch (error) {
+    // Manejar el error si el archivo no existe o hay otros problemas
+    console.error(`Error al eliminar el archivo ${filePath}`);
+  }
+};
 
 async function findByName(name) {
   let nameInsensitive = "(?i)" + name;
