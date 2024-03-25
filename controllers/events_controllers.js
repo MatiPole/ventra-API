@@ -96,12 +96,32 @@ async function updateEvent(req, id) {
     throw error;
   }
 }
-
+//Aprobar los eventos
 async function updateEventApprove(req, id) {
   try {
     return await Events.updateOne(
       { _id: id },
       { $set: { approve: req.body.approve } }
+    );
+  } catch (error) {
+    throw error;
+  }
+}
+
+//Actualizar eventos destacados
+async function updateEventFeatured(req, id) {
+  try {
+    // Contar el número de eventos destacados
+    const countFeaturedEvents = await Events.countDocuments({ featured: true });
+    const featured = req.body.featured;
+    // Verificar si el número de eventos destacados alcanzó el límite
+    if (countFeaturedEvents >= 5 && featured) {
+      throw new Error("Se ha alcanzado el máximo de eventos destacados");
+    }
+
+    return await Events.updateOne(
+      { _id: id },
+      { $set: { featured: req.body.featured } }
     );
   } catch (error) {
     throw error;
@@ -203,4 +223,5 @@ export {
   allEventsAdminList,
   updateEventApprove,
   getFeaturedEvents,
+  updateEventFeatured,
 };

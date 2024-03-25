@@ -19,4 +19,16 @@ async function deleteTask(taskId) {
   return deletedTask;
 }
 
-export { createTask, getTodoList, deleteTask };
+async function updateTaskStatus(id) {
+  let task = await todoList.findById(id); // Busca la tarea por su ID
+  task.status = !task.status;
+  await task.save();
+  return task;
+}
+
+async function updateTask(id, newTask) {
+  let task = await todoList.updateOne({ _id: id }, { $set: { task: newTask } });
+  return task;
+}
+
+export { createTask, getTodoList, deleteTask, updateTaskStatus, updateTask };
