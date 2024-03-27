@@ -137,7 +137,7 @@ async function deleteEvent(id) {
     }
     return event;
   } catch (err) {
-    res.status(400).send(err + "Error al eliminar la clase");
+    res.status(400).send(err + "Error al eliminar el evento");
   }
 }
 
