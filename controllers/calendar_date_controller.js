@@ -47,11 +47,12 @@ async function updateCalendarDate(req, id) {
     if (req.body.startDate) updateFields.startDate = req.body.startDate;
     if (req.body.endDate) updateFields.endDate = req.body.endDate;
 
-    let calendarDate = await calendarDate.updateOne(
+    let calendarDateEdited = await calendarDate.updateOne(
       { _id: id },
       { $set: updateFields }
     );
-    return calendarDate;
+
+    return calendarDateEdited;
   } catch (error) {
     throw error;
   }

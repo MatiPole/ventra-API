@@ -59,7 +59,7 @@ route.patch("/:taskId", (req, res) => {
 
 //EDITAR EVENTO DE CALENDARIO
 route.patch("/edit/:calendarDateId", (req, res) => {
-  let result = updateEvent(req, req.params.id);
+  let result = updateCalendarDate(req, req.params.calendarDateId);
   result
     .then((value) => {
       res.json({
