@@ -1,4 +1,5 @@
 import Events from "../models/events_models.js";
+import fs from "fs";
 
 //Se buscan todas las bandas con status true.
 async function eventsList(amount, skip) {
@@ -82,7 +83,17 @@ async function updateEvent(req, id) {
     if (req.body.venue) updateFields.venue = req.body.venue;
     if (req.body.address) updateFields.address = req.body.address;
     if (req.body.zone) updateFields.zone = req.body.zone;
-    if (req.file) updateFields.cover = req.file.path;
+    if (req.file) {
+      updateFields.cover = req.file.path;
+      try {
+        const event = await Events.findById(id);
+        if (event) {
+          await deleteFile(event.cover);
+        }
+      } catch (err) {
+        res.status(400).send(err + "Error al eliminar foto del evento");
+      }
+    }
     if (req.body.ticketCount) updateFields.ticketCount = req.body.ticketCount;
     if (req.body.visibility) updateFields.visibility = req.body.visibility;
     if (req.body.category) updateFields.category = req.body.category;
@@ -133,7 +144,7 @@ async function deleteEvent(id) {
     const event = await Events.findById(id);
     if (event) {
       await deleteFile(event.cover);
-      let event = await Events.deleteOne({ _id: id });
+      await Events.deleteOne({ _id: id });
     }
     return event;
   } catch (err) {
