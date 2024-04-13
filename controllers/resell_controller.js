@@ -22,4 +22,14 @@ async function deleteReselledTicket(resellId) {
   return deletedTicket;
 }
 
-export { publishToResell, getResellList, deleteReselledTicket };
+async function removeAllEventResaleTickets(eventId) {
+  let deletedTickets = await Resell.deleteMany({ eventId: eventId });
+  return deletedTickets;
+}
+
+export {
+  publishToResell,
+  getResellList,
+  deleteReselledTicket,
+  removeAllEventResaleTickets,
+};

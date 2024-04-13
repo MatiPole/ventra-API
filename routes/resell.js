@@ -4,6 +4,7 @@ import {
   publishToResell,
   getResellList,
   deleteReselledTicket,
+  removeAllEventResaleTickets,
 } from "../controllers/resell_controller.js";
 const route = express.Router();
 
@@ -32,6 +33,17 @@ route.delete("/:resellId", verifyToken, (req, res) => {
   result
     .then((deletedTicket) => {
       res.json(deletedTicket);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+route.delete("/removeAll/:eventId", verifyToken, (req, res) => {
+  let result = removeAllEventResaleTickets(req.params.eventId);
+  result
+    .then((deletedTickets) => {
+      res.json(deletedTickets);
     })
     .catch((err) => {
       res.status(400).json(err);

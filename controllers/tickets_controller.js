@@ -1,5 +1,5 @@
 import Tickets from "../models/tickets_models.js";
-
+import mongoose from "mongoose";
 async function createTicket(body) {
   try {
     let checkTimestamp = await findTimestamp(body.timestamp);
@@ -66,11 +66,42 @@ async function updateTicket(req, id) {
 }
 
 async function transferTicket(req, id) {
-  let ticket = await Tickets.updateOne(
-    { _id: id },
-    { $set: { userId: req.body.userId } }
-  );
-  return ticket;
+  try {
+    // Buscar el ticket existente por su _id
+    let ticket = await Tickets.findOne({ _id: id });
+
+    // Clonar el ticket existente con un nuevo _id
+    const newTicket = new Tickets({
+      ...ticket.toObject(), // Convertir el documento de Mongoose a un objeto para clonarlo
+      _id: new mongoose.Types.ObjectId(), // Generar un nuevo ObjectId para el nuevo ticket
+      userId: req.body.userId,
+    });
+    await newTicket.save();
+    await Tickets.deleteOne({ _id: id });
+
+    return newTicket;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function changeTicketsToAvaible(eventId) {
+  try {
+    // Buscar todos los tickets que contengan el eventId
+    const tickets = await Tickets.find({ eventId: eventId });
+    console.log(eventId);
+    // Modificar el campo state de cada ticket encontrado a 'avaiable'
+    await Promise.all(
+      tickets.map(async (ticket) => {
+        ticket.state = "available";
+        await ticket.save();
+      })
+    );
+
+    return tickets.length; // Retorna el número de tickets modificados
+  } catch (error) {
+    throw error;
+  }
 }
 
 async function deleteTicket(ticketId) {
@@ -86,4 +117,5 @@ export {
   updateTicket,
   findSoldTickets,
   transferTicket,
+  changeTicketsToAvaible,
 };

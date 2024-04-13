@@ -8,6 +8,7 @@ import {
   updateTicket,
   findSoldTickets,
   transferTicket,
+  changeTicketsToAvaible,
 } from "../controllers/tickets_controller.js";
 const route = express.Router();
 
@@ -67,6 +68,17 @@ route.patch("/transfer/:ticketId", verifyToken, (req, res) => {
   result.then((ticket) => {
     res.json(ticket);
   });
+});
+
+route.patch("/removeResell/:eventId", (req, res) => {
+  let result = changeTicketsToAvaible(req.params.eventId);
+  result
+    .then((numberOfTicketsModified) => {
+      res.json({ success: true, numberOfTicketsModified });
+    })
+    .catch((err) => {
+      res.status(400).json({ success: false, error: err.message });
+    });
 });
 
 route.delete("/:ticketId", verifyToken, (req, res) => {
