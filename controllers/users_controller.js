@@ -27,7 +27,6 @@ async function updateUser(body, id) {
     {
       $set: {
         username: body.username,
-        email: body.email,
         nameOwner: body.nameOwner,
         cuitCuil: body.cuitCuil,
         bank: body.bank,

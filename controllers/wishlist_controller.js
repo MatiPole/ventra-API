@@ -8,7 +8,7 @@ async function createWishlist(body) {
 
   if (existingWishlistItem) {
     // Si ya existe, devolver un error o realizar la lógica que desees
-    throw new Error("Este evento ya está en tu lista de deseos.");
+    throw new Error("Este evento ya está en tu lista de favoritos.");
   }
   let wishlist = new Wishlist({
     eventId: body.eventId,
