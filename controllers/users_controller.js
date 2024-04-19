@@ -1,5 +1,8 @@
 import Users from "../models/users_models.js";
 import bcrypt from "bcrypt";
+import nodemailer from "nodemailer";
+import "dotenv/config";
+import jwt from "jsonwebtoken";
 
 async function usersList() {
   let user = await Users.find({ status: true });
@@ -72,6 +75,61 @@ async function orderByEmail() {
   return users;
 }
 
+async function sendEmailForgotPass(email) {
+  const jwToken = jwt.sign(
+    {
+      user: { email: email },
+    },
+    process.env.SEED,
+    { expiresIn: "10m" }
+  );
+
+  const mailData = {
+    name: "Ventra",
+    email: email,
+    subject: "Cambiar contraseña",
+    content: `
+    Hacé click en el link para recuperar tu contraseña
+      <a href="http://localhost:5173/recuperar-contrasena/?${jwToken}/${email}" target="_blank">Recuperar contraseña</a>
+  `,
+  };
+
+  let transporter = nodemailer.createTransport({
+    host: process.env.HOST,
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.EMAILPASS,
+    },
+  });
+  const user = await Users.findOne({ email: email });
+  if (!user) {
+    return "El email no está registrado";
+  } else {
+    await transporter
+      .sendMail({
+        from: `"${mailData.name}" <${process.env.EMAIL}>`,
+        to: mailData.email,
+        subject: mailData.subject,
+        html: mailData.content,
+      })
+      .then(() => console.log("email enviado"))
+      .catch((err) => console.log(err + "error al enviar el mail"));
+  }
+}
+
+async function resetPassword(email, password) {
+  const user = await Users.updateOne(
+    { email: email },
+    { $set: { password: password } }
+  );
+  if (user.modifiedCount === 1) {
+    const user = await Users.findOne({ email: email });
+    return user;
+  }
+}
+
 export {
   usersList,
   findByEmail,
@@ -82,4 +140,6 @@ export {
   deleteUser,
   limitUsers,
   orderByEmail,
+  sendEmailForgotPass,
+  resetPassword,
 };

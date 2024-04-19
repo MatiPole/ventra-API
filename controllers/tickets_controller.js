@@ -1,5 +1,9 @@
 import Tickets from "../models/tickets_models.js";
+import Users from "../models/users_models.js";
 import mongoose from "mongoose";
+import nodemailer from "nodemailer";
+import "dotenv/config";
+
 async function createTicket(body) {
   try {
     let checkTimestamp = await findTimestamp(body.timestamp);
@@ -78,6 +82,35 @@ async function transferTicket(req, id) {
     });
     await newTicket.save();
     await Tickets.deleteOne({ _id: id });
+    // let user = await Users.findOne({ _id: req.body.userId });
+    // let email = user.email;
+
+    // const mailData = {
+    //   name: "Ventra",
+    //   email: email,
+    //   subject: "Te transfirieron un ticket!",
+    //   content: "Es tu día de suerte! Alguien te transfirió un ticket!",
+    // };
+
+    // let transporter = nodemailer.createTransport({
+    //   host: process.env.HOST,
+    //   port: 465,
+    //   secure: true,
+    //   auth: {
+    //     user: process.env.EMAIL,
+    //     pass: process.env.EMAILPASS,
+    //   },
+    // });
+
+    // await transporter
+    //   .sendMail({
+    //     from: `"${mailData.name}" <${process.env.EMAIL}>`,
+    //     to: mailData.email,
+    //     subject: mailData.subject,
+    //     html: mailData.content,
+    //   })
+    //   .then(() => console.log("email enviado"))
+    //   .catch((err) => console.log(err + "error al enviar el mail"));
 
     return newTicket;
   } catch (error) {

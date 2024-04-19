@@ -1,4 +1,7 @@
 import Resell from "../models/resell_models.js";
+import Users from "../models/users_models.js";
+import nodemailer from "nodemailer";
+import "dotenv/config";
 
 async function publishToResell(body) {
   let publishedTicket = new Resell({
@@ -18,6 +21,38 @@ async function getResellList(eventId) {
 }
 
 async function deleteReselledTicket(resellId) {
+  let ticketToDelete = await Resell.findOne({ _id: resellId });
+  let userId = ticketToDelete.userId;
+  let user = await Users.findOne({ _id: userId });
+  let email = user.email;
+
+  const mailData = {
+    name: "Ventra",
+    email: email,
+    subject: "Vendiste tu entrada!",
+    content: "Te compraron un ticket de reventa!",
+  };
+
+  let transporter = nodemailer.createTransport({
+    host: process.env.HOST,
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.EMAILPASS,
+    },
+  });
+
+  await transporter
+    .sendMail({
+      from: `"${mailData.name}" <${process.env.EMAIL}>`,
+      to: mailData.email,
+      subject: mailData.subject,
+      html: mailData.content,
+    })
+    .then(() => console.log("email enviado"))
+    .catch((err) => console.log(err + "error al enviar el mail"));
+
   let deletedTicket = await Resell.deleteOne({ _id: resellId });
   return deletedTicket;
 }

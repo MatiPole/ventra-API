@@ -11,8 +11,11 @@ import {
   deleteUser,
   limitUsers,
   orderByEmail,
+  sendEmailForgotPass,
+  resetPassword,
 } from "../controllers/users_controller.js";
 import Joi from "joi";
+import bcrypt from "bcrypt";
 const route = express.Router();
 
 //Obtenemos todos los usuarios registrados
@@ -182,6 +185,31 @@ route.get("/email/:email", verifyToken, (req, res) => {
 //Ordenamiento por email
 route.get("/order-by-email", verifyToken, (req, res) => {
   let result = orderByEmail();
+  result
+    .then((value) => {
+      res.json(value);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+route.post("/forgot-password", (req, res) => {
+  const email = req.body.email;
+  let result = sendEmailForgotPass(email);
+  result
+    .then((value) => {
+      res.json(value);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+});
+
+route.patch("/reset-password", verifyToken, (req, res) => {
+  const email = req.body.email;
+  const password = bcrypt.hashSync(req.body.password, 10);
+  let result = resetPassword(email, password);
   result
     .then((value) => {
       res.json(value);
