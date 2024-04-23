@@ -58,8 +58,8 @@ async function deleteBoughtResellTicket(resellId) {
     .then(() => {
       console.log("email enviado");
       let deletedTicket = Resell.deleteOne({ _id: resellId });
-      console.log(deletedTicket);
-      // return deletedTicket;
+      // console.log(deletedTicket);
+      return deletedTicket;
     })
     .catch((err) => console.log(err + "error al enviar el mail"));
 }
