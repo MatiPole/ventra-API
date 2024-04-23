@@ -21,6 +21,11 @@ async function getResellList(eventId) {
 }
 
 async function deleteReselledTicket(resellId) {
+  let deletedTicket = await Resell.deleteOne({ _id: resellId });
+  return deletedTicket;
+}
+
+async function deleteBoughtResellTicket(resellId) {
   let ticketToDelete = await Resell.findOne({ _id: resellId });
   let userId = ticketToDelete.userId;
   let user = await Users.findOne({ _id: userId });
@@ -50,11 +55,13 @@ async function deleteReselledTicket(resellId) {
       subject: mailData.subject,
       html: mailData.content,
     })
-    .then(() => console.log("email enviado"))
+    .then(() => {
+      console.log("email enviado");
+      let deletedTicket = Resell.deleteOne({ _id: resellId });
+      console.log(deletedTicket);
+      // return deletedTicket;
+    })
     .catch((err) => console.log(err + "error al enviar el mail"));
-
-  let deletedTicket = await Resell.deleteOne({ _id: resellId });
-  return deletedTicket;
 }
 
 async function removeAllEventResaleTickets(eventId) {
@@ -66,5 +73,6 @@ export {
   publishToResell,
   getResellList,
   deleteReselledTicket,
+  deleteBoughtResellTicket,
   removeAllEventResaleTickets,
 };
