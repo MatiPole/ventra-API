@@ -182,6 +182,17 @@ route.get("/email/:email", verifyToken, (req, res) => {
     });
 });
 
+route.get("/resetpass/email/:email", (req, res) => {
+  let result = findByEmail(req.params.email);
+  result
+    .then((value) => {
+      res.json(value);
+    })
+    .catch((err) => {
+      res.status(400).json({ err });
+    });
+});
+
 //Ordenamiento por email
 route.get("/order-by-email", verifyToken, (req, res) => {
   let result = orderByEmail();
