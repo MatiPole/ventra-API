@@ -5,7 +5,7 @@ const route = express.Router();
 
 const client = new MercadoPagoConfig({
   accessToken:
-    "TEST-2730920564853175-021919-ba8f8df42df40577b84de31dd5628fde-179063310",
+    "APP_USR-2730920564853175-021919-09b583793e4307a03785649edc6fd08e-179063310",
 });
 
 route.post("/", verifyToken, async (req, res) => {
@@ -20,9 +20,9 @@ route.post("/", verifyToken, async (req, res) => {
         },
       ],
       back_urls: {
-        success: `http://localhost:5173/detalle/comprar/pago/${req.body.name}/${req.body.eventId}/${req.body.amount}/${timestamp}`,
-        failure: "http://localhost:3000",
-        pending: "http://localhost:3000",
+        success: `https://www.ventra.com.ar/detalle/comprar/pago/${req.body.name}/${req.body.eventId}/${req.body.amount}/${timestamp}`,
+        failure: "https://www.ventra.com.ar",
+        pending: "https://www.ventra.com.ar",
       },
       auto_return: "approved",
     };
@@ -54,9 +54,9 @@ route.post("/resell", verifyToken, async (req, res) => {
         },
       ],
       back_urls: {
-        success: `http://localhost:5173/reventa/comprar/${req.body.title}/${req.body.eventId}/${req.body.ticketId}/${req.body.resellId}/${timestamp}`,
-        failure: "http://localhost:3000",
-        pending: "http://localhost:3000",
+        success: `https://www.ventra.com.ar/reventa/comprar/${req.body.title}/${req.body.eventId}/${req.body.ticketId}/${req.body.resellId}/${timestamp}`,
+        failure: "https://www.ventra.com.ar",
+        pending: "https://www.ventra.com.ar",
       },
       auto_return: "approved",
     };

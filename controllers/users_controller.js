@@ -90,7 +90,7 @@ async function sendEmailForgotPass(email) {
     subject: "Cambiar contraseña",
     content: `
     Hacé click en el link para recuperar tu contraseña
-      <a href="http://localhost:5173/recuperar-contrasena/?${jwToken}/${email}" target="_blank">Recuperar contraseña</a>
+      <a href="https://www.ventra.com.ar/recuperar-contrasena/?${jwToken}/${email}" target="_blank">Recuperar contraseña</a>
   `,
   };
 

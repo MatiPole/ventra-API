@@ -91,7 +91,7 @@ async function transferTicket(req, id) {
       subject: "Te transfirieron un ticket!",
       content: `
    Es tu día de suerte! Alguien te transfirió un ticket!
-      <a href="http://localhost:5173/iniciar-sesion" target="_blank">Ver mi ticket</a>
+      <a href="https://www.ventra.com.ar/iniciar-sesion" target="_blank">Ver mi ticket</a>
   `,
     };
 
