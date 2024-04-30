@@ -80,7 +80,7 @@ async function updateEvent(req, id, coverUrl) {
     if (req.body.venue) updateFields.venue = req.body.venue;
     if (req.body.address) updateFields.address = req.body.address;
     if (req.body.zone) updateFields.zone = req.body.zone;
-    if (coverUrl) {
+    if (coverUrl == !null) {
       updateFields.cover = coverUrl;
       try {
         const event = await Events.findById(id);
