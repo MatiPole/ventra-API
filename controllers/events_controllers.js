@@ -42,7 +42,8 @@ async function findEvent(id) {
 }
 
 async function createEvent(req, coverUrl) {
-  let image = "imgs/default-cover-img.jpg";
+  let image =
+    "https://res.cloudinary.com/hlaqibalo/image/upload/v1714485164/ohq71rudclfdkxjs3fdr.jpg";
   if (coverUrl) {
     image = coverUrl;
   }
@@ -70,7 +71,7 @@ async function createEvent(req, coverUrl) {
   return await event.save();
 }
 
-async function updateEvent(req, id) {
+async function updateEvent(req, id, coverUrl) {
   try {
     let updateFields = {};
 
@@ -83,8 +84,8 @@ async function updateEvent(req, id) {
     if (req.body.venue) updateFields.venue = req.body.venue;
     if (req.body.address) updateFields.address = req.body.address;
     if (req.body.zone) updateFields.zone = req.body.zone;
-    if (req.file) {
-      updateFields.cover = req.file.path;
+    if (coverUrl) {
+      updateFields.cover = coverUrl;
       try {
         const event = await Events.findById(id);
         if (event) {

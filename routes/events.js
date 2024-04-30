@@ -146,13 +146,10 @@ const upload = multer({ storage });
 
 route.post("/", verifyToken, upload.single("cover"), async (req, res) => {
   try {
-    console.log("upload");
-    const uploadCover = await cloudinary.uploader.upload(req.file.path, {
-      public_id: req.file.filename.split(".")[0], //nombre de la imagen
-    });
+    const uploadCover = await cloudinary.uploader.upload(req.file.path);
     const coverUrl = uploadCover.url;
     const event = await createEvent(req, coverUrl);
-    res.json({ event, uploadCover });
+    res.json({ uploadCover, event });
   } catch (err) {
     res
       .status(400)
@@ -161,17 +158,18 @@ route.post("/", verifyToken, upload.single("cover"), async (req, res) => {
 });
 
 //Actualizar los datos del evento.
-route.patch("/:id", upload.single("cover"), (req, res) => {
-  let result = updateEvent(req, req.params.id);
-  result
-    .then((value) => {
-      res.json({
-        value,
-      });
-    })
-    .catch((err) => {
-      res.status(400).json(err);
+route.patch("/:id", upload.single("cover"), async (req, res) => {
+  try {
+    const uploadCover = await cloudinary.uploader.upload(req.file.path);
+    const coverUrl = uploadCover.url;
+    const result = await updateEvent(req, req.params.id, coverUrl);
+    res.json({
+      uploadCover,
+      result,
     });
+  } catch (err) {
+    res.status(400).json({ error: err.message || "Error updating event" });
+  }
 });
 
 //Actualizar cantidad de entradas restantes.
