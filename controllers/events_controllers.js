@@ -42,11 +42,7 @@ async function findEvent(id) {
 }
 
 async function createEvent(req, coverUrl) {
-  let image =
-    "https://res.cloudinary.com/hlaqibalo/image/upload/v1714485164/ohq71rudclfdkxjs3fdr.jpg";
-  if (coverUrl) {
-    image = coverUrl;
-  }
+  let image = coverUrl;
 
   let event = new Events({
     name: req.body.name,
