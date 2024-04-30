@@ -1,5 +1,6 @@
 import express from "express";
 import verifyToken from "../middlewares/auth.js";
+import { v2 as cloudinary } from "cloudinary";
 import multer from "multer";
 import path from "path";
 import {
@@ -125,6 +126,11 @@ route.get("/:id", (req, res) => {
 });
 
 //Agregar un nuevo evento
+cloudinary.config({
+  cloud_name: "hlaqibalo",
+  api_key: "553648888836517",
+  api_secret: "7FkrAODDyrHoYeNpJgBVukp9boY",
+});
 
 const storage = multer.diskStorage({
   destination: "./imgs/",
@@ -141,7 +147,8 @@ const upload = multer({ storage });
 route.post("/", verifyToken, upload.single("cover"), async (req, res) => {
   try {
     const event = await createEvent(req);
-    res.json({ event });
+    const result = await cloudinary.uploader.upload(req.file.path);
+    res.json({ event, result });
   } catch (err) {
     res.status(400).json({ error: err.message || "Error creating event" });
   }
