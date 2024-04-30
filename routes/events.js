@@ -146,8 +146,14 @@ const upload = multer({ storage });
 
 route.post("/", verifyToken, upload.single("cover"), async (req, res) => {
   try {
-    const uploadCover = await cloudinary.uploader.upload(req.file.path);
-    const coverUrl = uploadCover.url;
+    let coverUrl;
+    if (req.file) {
+      const uploadCover = await cloudinary.uploader.upload(req.file.path);
+      coverUrl = uploadCover.url;
+    } else {
+      coverUrl =
+        "https://res.cloudinary.com/hlaqibalo/image/upload/v1714485164/ohq71rudclfdkxjs3fdr.jpg";
+    }
     const event = await createEvent(req, coverUrl);
     res.json({ uploadCover, event });
   } catch (err) {
@@ -160,14 +166,8 @@ route.post("/", verifyToken, upload.single("cover"), async (req, res) => {
 //Actualizar los datos del evento.
 route.patch("/:id", upload.single("cover"), async (req, res) => {
   try {
-    let coverUrl;
-    if (req.file) {
-      const uploadCover = await cloudinary.uploader.upload(req.file.path);
-      coverUrl = uploadCover.url;
-    } else {
-      coverUrl =
-        "https://res.cloudinary.com/hlaqibalo/image/upload/v1714485164/ohq71rudclfdkxjs3fdr.jpg";
-    }
+    const uploadCover = await cloudinary.uploader.upload(req.file.path);
+    const coverUrl = uploadCover.url;
     const result = await updateEvent(req, req.params.id, coverUrl);
     res.json({
       uploadCover,
