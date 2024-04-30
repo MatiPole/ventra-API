@@ -41,10 +41,10 @@ async function findEvent(id) {
   return event;
 }
 
-async function createEvent(req) {
+async function createEvent(req, coverUrl) {
   let image = "imgs/default-cover-img.jpg";
-  if (req.file) {
-    image = req.file.path;
+  if (coverUrl) {
+    image = coverUrl;
   }
 
   let event = new Events({
