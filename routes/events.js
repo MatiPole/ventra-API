@@ -146,11 +146,14 @@ const upload = multer({ storage });
 
 route.post("/", verifyToken, upload.single("cover"), async (req, res) => {
   try {
-    const event = await createEvent(req);
-    const result = await cloudinary.uploader.upload(req.file.path);
-    res.json({ event, result });
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      public_id: req.file.filename.split(".")[0],
+    });
+    res.json({ result });
   } catch (err) {
-    res.status(400).json({ error: err.message || "Error creating event" });
+    res
+      .status(400)
+      .json({ error: err.message || "Error uploading file to Cloudinary" });
   }
 });
 
