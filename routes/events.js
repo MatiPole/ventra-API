@@ -146,11 +146,13 @@ const upload = multer({ storage });
 
 route.post("/", verifyToken, upload.single("cover"), async (req, res) => {
   try {
-    const event = await createEvent(req);
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      public_id: req.file.filename.split(".")[0],
+    console.log("upload");
+    const uploadCover = await cloudinary.uploader.upload(req.file.path, {
+      public_id: req.file.filename.split(".")[0], //nombre de la imagen
     });
-    res.json({ event, result });
+    const coverUrl = uploadCover.url;
+    const event = await createEvent(req, coverUrl);
+    res.json({ event, uploadCover });
   } catch (err) {
     res
       .status(400)
