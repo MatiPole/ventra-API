@@ -34,6 +34,7 @@ async function updateUser(body, id) {
         cuitCuil: body.cuitCuil,
         bank: body.bank,
         cbuCvu: body.cbuCvu,
+        completeData: true,
       },
     }
   );
