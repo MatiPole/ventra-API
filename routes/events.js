@@ -152,7 +152,7 @@ route.post("/", verifyToken, upload.single("cover"), async (req, res) => {
       coverUrl = uploadCover.url;
     } else {
       coverUrl =
-        "https://res.cloudinary.com/hlaqibalo/image/upload/v1714485164/ohq71rudclfdkxjs3fdr.jpg";
+        "https://res.cloudinary.com/hlaqibalo/image/upload/v1715893459/imagen-default_p4pup7.jpg";
     }
     const event = await createEvent(req, coverUrl);
     res.json({ uploadCover, event });
