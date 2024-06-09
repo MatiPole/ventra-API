@@ -46,7 +46,7 @@ app.use("/resell", resell);
 app.use("/todoList", todoList);
 app.use("/calendarDate", calendarDate);
 app.get("/", function (req, res) {
-  res.sendFile("./html/index.html", { root: __dirname });
+  res.send("esto funciona");
 });
 
 const port = process.env.PORT || 3002;
