@@ -127,9 +127,9 @@ route.get("/:id", (req, res) => {
 
 //Agregar un nuevo evento
 cloudinary.config({
-  cloud_name: "hlaqibalo",
-  api_key: "553648888836517",
-  api_secret: "7FkrAODDyrHoYeNpJgBVukp9boY",
+  cloud_name: "dht1brpry",
+  api_key: "277821916981184",
+  api_secret: "WKyltjvwveOa7ZADrUs5W7SNWO8",
 });
 
 const storage = multer.diskStorage({
