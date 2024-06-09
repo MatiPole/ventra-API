@@ -132,15 +132,7 @@ cloudinary.config({
   api_secret: "WKyltjvwveOa7ZADrUs5W7SNWO8",
 });
 
-const storage = multer.diskStorage({
-  destination: "./imgs/",
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
+const storage = multer.memoryStorage();
 
 const upload = multer({ storage });
 
@@ -148,14 +140,24 @@ route.post("/", verifyToken, upload.single("cover"), async (req, res) => {
   try {
     let coverUrl;
     if (req.file) {
-      const uploadCover = await cloudinary.uploader.upload(req.file.path);
+      const uploadCover = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream((error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        });
+        stream.end(req.file.buffer);
+      });
+
       coverUrl = uploadCover.url;
     } else {
       coverUrl =
         "https://res.cloudinary.com/hlaqibalo/image/upload/v1715893459/imagen-default_p4pup7.jpg";
     }
     const event = await createEvent(req, coverUrl);
-    res.json({ uploadCover, event });
+    res.json({ coverUrl, event });
   } catch (err) {
     res
       .status(400)
@@ -168,16 +170,23 @@ route.patch("/:id", upload.single("cover"), async (req, res) => {
   try {
     let coverUrl;
     if (req.file) {
-      const uploadCover = await cloudinary.uploader.upload(req.file.path);
+      const uploadCover = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream((error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        });
+        stream.end(req.file.buffer);
+      });
+
       coverUrl = uploadCover.url;
     } else {
       coverUrl = null;
     }
     const result = await updateEvent(req, req.params.id, coverUrl);
-    res.json({
-      uploadCover,
-      result,
-    });
+    res.json({ coverUrl, result });
   } catch (err) {
     res.status(400).json({ error: err.message || "Error updating event" });
   }
